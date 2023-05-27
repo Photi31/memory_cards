@@ -1,0 +1,28 @@
+.authContainer {
+  margin: 60px auto 0 auto;
+  padding: 35px 33px;
+  width: 415px;
+  background: #ffffff;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.description {
+  margin-top: 30px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  opacity: 0.5;
+  text-align: center;
+}
+
+.link {
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  text-decoration-line: underline;
+  color: #366eff;
+  cursor: pointer;
+}
