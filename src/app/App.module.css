@@ -1,0 +1,32 @@
+.App {
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  background: #f9f9fa;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.form {
+  margin-top: 40px;
+}
+
+.title_fz26 {
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 32px;
+  text-align: center;
+}
+
+.input {
+}
+
+.inputTitle {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  opacity: 0.5;
+}
