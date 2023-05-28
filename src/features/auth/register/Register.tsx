@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Button } from "components/button/Button";
+import { MyButton } from "components/button/MyButton";
 import { MouseEvent, useState } from "react";
 
 export const Register = () => {
@@ -89,7 +89,7 @@ export const Register = () => {
           />
         </FormControl>
         <div className={s.indent}></div>
-        <Button
+        <MyButton
           size="big"
           color="blue"
           name="Sign Up"

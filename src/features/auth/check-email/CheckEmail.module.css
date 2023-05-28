@@ -1,0 +1,13 @@
+.description {
+  margin-top: 30px;
+  margin-bottom: 65px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  opacity: 0.5;
+}
+
+.checkEmailImg {
+  display: block;
+  margin: 30px auto 0 auto;
+}

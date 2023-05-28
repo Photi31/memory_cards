@@ -6,10 +6,11 @@ type ButtonPropsType = {
   color: string;
   name: string;
   onClick: (buttonName: string) => void;
+  startIcon?: any;
 };
 
-export const Button = (props: ButtonPropsType) => {
-  const { size, color, name, onClick } = props;
+export const MyButton = (props: ButtonPropsType) => {
+  const { size, color, name, onClick, startIcon } = props;
   const buttonClassName =
     s.button +
     (size === "small" ? " " + s.small : " " + s.big) +
@@ -22,6 +23,7 @@ export const Button = (props: ButtonPropsType) => {
 
   return (
     <button className={buttonClassName} onClick={onClickHandler}>
+      {startIcon && <img className={s.startIcon} src={startIcon} alt="icon" />}
       {name}
     </button>
   );

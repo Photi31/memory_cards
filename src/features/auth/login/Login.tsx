@@ -3,7 +3,7 @@ import { authThunks } from "features/auth/auth.slice";
 import s from "./Login.module.css";
 import s1 from "app/App.module.css";
 import s2 from "features/auth/auth.module.css";
-import { Button } from "components/button/Button";
+import { MyButton } from "components/button/MyButton";
 import {
   FormControl,
   Input,
@@ -80,7 +80,12 @@ export const Login = () => {
         <div className={s.forgotPassword} onClick={forgotPassword}>
           Forgot Password?
         </div>
-        <Button size="big" color="blue" name="Sing in" onClick={loginHandler} />
+        <MyButton
+          size="big"
+          color="blue"
+          name="Sing in"
+          onClick={loginHandler}
+        />
       </form>
       <div className={s2.description}>You don't have an account yet?</div>
       <div className={s2.link} onClick={singUp}>

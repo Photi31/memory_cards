@@ -1,0 +1,54 @@
+.photoBlock {
+  margin: 30px auto 0 auto;
+  display: block;
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+
+.photo {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.setPhoto {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  background: #808080;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nameBlock {
+  margin-top: 17px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.email {
+  margin-top: 15px;
+  margin-bottom: 30px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  opacity: 0.5;
+}
+
+.button {
+  width: 133px;
+  margin: 0 auto;
+}

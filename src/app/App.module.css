@@ -12,6 +12,7 @@
 
 .form {
   margin-top: 40px;
+  text-align: left;
 }
 
 .title_fz26 {
@@ -20,8 +21,11 @@
   line-height: 32px;
   text-align: center;
 }
-
-.input {
+.title_fz22 {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 27px;
+  text-align: center;
 }
 
 .inputTitle {

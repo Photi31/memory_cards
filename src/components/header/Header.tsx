@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./Header.module.css";
 import logo from "images/incubatorLogo.svg";
-import { Button } from "components/button/Button";
+import { MyButton } from "components/button/MyButton";
 
 export const Header = () => {
   const onClickButton = (buttonName: string) => {
@@ -12,7 +12,7 @@ export const Header = () => {
     <header className={s.header}>
       <div className={s.container}>
         <img className={s.logo} src={logo} alt="logo" />
-        <Button
+        <MyButton
           size="small"
           color="blue"
           name="Sing in"
