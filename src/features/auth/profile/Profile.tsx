@@ -6,7 +6,7 @@ import photoIcon from "images/photoIcon.svg";
 import pencil from "images/pencil.svg";
 import logout from "images/logout.svg";
 import { ChangeEvent, useState } from "react";
-import { Button, FormControl, TextField } from "@mui/material";
+import { Button, FormControl, Input, InputLabel } from "@mui/material";
 import { MyButton } from "components/button/MyButton";
 
 export const Profile = () => {
@@ -40,21 +40,31 @@ export const Profile = () => {
       </div>
       {editMode ? (
         <FormControl variant="standard" size="small" margin="normal" fullWidth>
-          <TextField
+          <InputLabel htmlFor="change-name">Nickname</InputLabel>
+          <Input
+            id="change-name"
             type="text"
-            label="Nickname"
             value={title}
             onChange={changeTitle}
             autoFocus
+            endAdornment={
+              <Button
+                size="small"
+                variant="contained"
+                sx={{
+                  bgcolor: "#366EFF",
+                  marginBottom: "4px",
+                  height: "24px",
+                  fontSize: "12px",
+                  lineHeight: "24px",
+                  fontWeight: "400",
+                }}
+                onClick={activateViewMode}
+              >
+                SAVE
+              </Button>
+            }
           />
-          <Button
-            size="small"
-            variant="contained"
-            sx={{ bgcolor: "#366EFF" }}
-            onClick={activateViewMode}
-          >
-            SAVE
-          </Button>
         </FormControl>
       ) : (
         <div className={s.nameBlock} onDoubleClick={activateEditMode}>
