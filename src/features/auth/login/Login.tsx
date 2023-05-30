@@ -3,7 +3,6 @@ import { authThunks } from "features/auth/auth.slice";
 import s from "./Login.module.css";
 import s1 from "app/App.module.css";
 import s2 from "features/auth/auth.module.css";
-import { MyButton } from "components/button/MyButton";
 import {
   FormControl,
   Input,
@@ -13,14 +12,27 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
+  Button,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { MouseEvent, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { bigBlueButtonSX } from "common/styles/buttons";
+import { emailValidation, passwordValidation } from "common/validations";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => {
+    console.log(data);
+    dispatch(authThunks.login(data));
+  };
 
   const arg = {
     email: "photi31@gmail.com",
@@ -31,20 +43,20 @@ export const Login = () => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const forgotPassword = () => <Navigate to="forgotPassword" />;
+  const forgotPassword = () => {
+    console.log("forgot password");
+    return <Navigate to="forgotPassword" />; //todo
+  };
   const singUp = (e: MouseEvent<HTMLDivElement>) => {
     console.log(e);
-  };
-
-  const loginHandler = (buttonName: string) => {
-    dispatch(authThunks.login(arg));
   };
 
   return (
     <div className={s2.authContainer}>
       <h3 className={s1.title_fz26}>Sing in</h3>
-      <form className={s1.form}>
+      <form className={s1.form} onSubmit={handleSubmit(onSubmit)}>
         <TextField
+          {...register("email", emailValidation)}
           type="email"
           variant="standard"
           label="Email"
@@ -52,11 +64,16 @@ export const Login = () => {
           margin="normal"
           fullWidth
         />
+        {errors?.email?.type === "required" && <p>This field is required</p>}
+        {errors?.email?.type === "pattern" && (
+          <p>Email address must contain the "@" symbol</p>
+        )}
         <FormControl variant="standard" size="small" margin="normal" fullWidth>
           <InputLabel htmlFor="standard-adornment-password">
             Password
           </InputLabel>
           <Input
+            {...register("password", passwordValidation)}
             id="standard-adornment-password"
             type={showPassword ? "text" : "password"}
             endAdornment={
@@ -65,7 +82,6 @@ export const Login = () => {
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   sx={{ color: "black" }}
-                  // onMouseDown={handleMouseDownPassword}
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -73,19 +89,24 @@ export const Login = () => {
             }
           />
         </FormControl>
+        {errors?.password?.type === "required" && <p>This field is required</p>}
+        {errors?.password?.type === "minLength" && (
+          <p>Minimum password 8 characters</p>
+        )}
+        {errors?.password?.type === "maxLength" && (
+          <p>Maximum password 18 characters</p>
+        )}
         <FormControlLabel
+          {...register("rememberMe")}
           control={<Checkbox defaultChecked />}
           label="Remember me"
         />
         <div className={s.forgotPassword} onClick={forgotPassword}>
           Forgot Password?
         </div>
-        <MyButton
-          size="big"
-          color="blue"
-          name="Sing in"
-          onClick={loginHandler}
-        />
+        <Button variant="contained" type="submit" sx={bigBlueButtonSX}>
+          Sing in
+        </Button>
       </form>
       <div className={s2.description}>You don't have an account yet?</div>
       <div className={s2.link} onClick={singUp}>

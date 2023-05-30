@@ -8,6 +8,7 @@ export const authApi = {
     return instance.post<ProfileType>("auth/login", arg);
   },
 };
+
 export type ProfileType = {
   _id: string;
   email: string;
@@ -25,9 +26,7 @@ export type ProfileType = {
 export type RegisterResponseType = {
   addedUser: Omit<ProfileType, "token" | "tokenDeathTime">;
 };
-
 export type ArgRegisterType = Omit<ArgLoginType, "rememberMe">;
-
 export type ArgLoginType = {
   email: string;
   password: string;

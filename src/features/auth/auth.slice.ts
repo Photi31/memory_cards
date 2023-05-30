@@ -5,16 +5,19 @@ import {
   authApi,
   ProfileType,
 } from "features/auth/auth.api";
+import { AppDispatch, RootState } from "app/store";
+import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 
 const register = createAsyncThunk("auth/register", (arg: ArgRegisterType) => {
   authApi.register(arg).then((res) => {});
 });
-const login = createAsyncThunk("auth/login", (arg: ArgLoginType, thunkAPI) => {
-  const { dispatch } = thunkAPI;
-  authApi.login(arg).then((res) => {
-    dispatch(authActions.setProfile({ profile: res.data }));
-  });
-});
+const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
+  "auth/login",
+  async (arg: ArgLoginType) => {
+    const res = await authApi.login(arg);
+    return { profile: res.data };
+  }
+);
 
 const slice = createSlice({
   name: "auth",
@@ -22,9 +25,13 @@ const slice = createSlice({
     profile: null as ProfileType | null,
   },
   reducers: {
-    setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
+    // setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
+    //   state.profile = action.payload.profile;
+  },
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state, action) => {
       state.profile = action.payload.profile;
-    },
+    });
   },
 });
 
