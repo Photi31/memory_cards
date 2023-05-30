@@ -1,9 +1,10 @@
-import { useAppDispatch } from "app/hooks";
-import { authThunks } from "features/auth/auth.slice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { authActions, authThunks } from "features/auth/auth.slice";
 import s2 from "features/auth/auth.module.css";
 import s1 from "app/App.module.css";
 import s from "./Register.module.css";
 import {
+  Button,
   FormControl,
   IconButton,
   Input,
@@ -12,33 +13,50 @@ import {
   TextField,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { MyButton } from "components/button/MyButton";
-import { MouseEvent, useState } from "react";
+import React, { MouseEvent, useState } from "react";
+import { bigBlueButtonSX } from "common/styles/buttons";
+import { useForm } from "react-hook-form";
+import { emailValidation, passwordValidation } from "common/validations";
+import { Navigate } from "react-router-dom";
 
 export const Register = () => {
   const dispatch = useAppDispatch();
+  const isRegistrated = useAppSelector(
+    (state) => state.auth.activateRegistration
+  );
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const arg = {
     email: "photi31@gmail.com",
     password: "12345677",
   };
 
-  const registerHandler = () => {
-    dispatch(authThunks.register(arg));
+  const onSubmit = (data: any) => {
+    console.log(data);
+    dispatch(
+      authThunks.register({ email: data.email, password: data.password })
+    );
   };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const singIn = (e: MouseEvent<HTMLDivElement>) => {
-    console.log(e);
+  const singIn = () => {
+    dispatch(authActions.activateRegistration({ activateRegistration: false }));
   };
+  if (!isRegistrated) return <Navigate to="/login" />;
 
   return (
     <div className={s2.authContainer}>
       <h3 className={s1.title_fz26}>Sing in</h3>
-      <form className={s1.form}>
+      <form className={s1.form} onSubmit={handleSubmit(onSubmit)}>
         <TextField
+          {...register("email", emailValidation)}
           type="email"
           variant="standard"
           label="Email"
@@ -51,6 +69,7 @@ export const Register = () => {
             Password
           </InputLabel>
           <Input
+            {...register("password", passwordValidation)}
             id="standard-adornment-password"
             type={showPassword ? "text" : "password"}
             endAdornment={
@@ -59,7 +78,6 @@ export const Register = () => {
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   sx={{ color: "black" }}
-                  // onMouseDown={handleMouseDownPassword}
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -72,6 +90,7 @@ export const Register = () => {
             Confirm password
           </InputLabel>
           <Input
+            {...register("confirmPassword", passwordValidation)}
             id="standard-adornment-password"
             type={showPassword ? "text" : "password"}
             endAdornment={
@@ -80,7 +99,6 @@ export const Register = () => {
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   sx={{ color: "black" }}
-                  // onMouseDown={handleMouseDownPassword}
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -89,12 +107,9 @@ export const Register = () => {
           />
         </FormControl>
         <div className={s.indent}></div>
-        <MyButton
-          size="big"
-          color="blue"
-          name="Sign Up"
-          onClick={registerHandler}
-        />
+        <Button variant="contained" type="submit" sx={bigBlueButtonSX}>
+          Sign Up
+        </Button>
       </form>
       <div className={s2.description}>Already have an account?</div>
       <div className={s2.link} onClick={singIn}>

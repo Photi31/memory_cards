@@ -25,3 +25,14 @@
   color: #366eff;
   cursor: pointer;
 }
+
+.error {
+  color: #bf1650;
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.error::before {
+  display: inline;
+  content: "⚠ ";
+}

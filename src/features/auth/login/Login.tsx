@@ -1,5 +1,5 @@
-import { useAppDispatch } from "app/hooks";
-import { authThunks } from "features/auth/auth.slice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { authActions, authReducer, authThunks } from "features/auth/auth.slice";
 import s from "./Login.module.css";
 import s1 from "app/App.module.css";
 import s2 from "features/auth/auth.module.css";
@@ -15,7 +15,7 @@ import {
   Button,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { MouseEvent, useState } from "react";
+import React, { MouseEvent, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { bigBlueButtonSX } from "common/styles/buttons";
@@ -23,21 +23,20 @@ import { emailValidation, passwordValidation } from "common/validations";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const isLogined = useAppSelector((state) => state.auth.isLogined);
+  const isRegistrated = useAppSelector(
+    (state) => state.auth.activateRegistration
+  );
   const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
-    dispatch(authThunks.login(data));
-  };
 
-  const arg = {
-    email: "photi31@gmail.com",
-    password: "12345677",
-    rememberMe: true,
+  const onSubmit = (data: any) => {
+    dispatch(authThunks.login(data));
   };
 
   const handleClickShowPassword = () => {
@@ -45,11 +44,13 @@ export const Login = () => {
   };
   const forgotPassword = () => {
     console.log("forgot password");
-    return <Navigate to="forgotPassword" />; //todo
+    return <Navigate to="/forgotPassword" />; //todo
   };
-  const singUp = (e: MouseEvent<HTMLDivElement>) => {
-    console.log(e);
+  const singUp = () => {
+    dispatch(authActions.activateRegistration({ activateRegistration: true }));
   };
+  if (isRegistrated) return <Navigate to="/register" />;
+  if (isLogined) return <Navigate to="/profile" />;
 
   return (
     <div className={s2.authContainer}>
@@ -64,9 +65,11 @@ export const Login = () => {
           margin="normal"
           fullWidth
         />
-        {errors?.email?.type === "required" && <p>This field is required</p>}
+        {errors?.email?.type === "required" && (
+          <p className={s2.error}>This field is required</p>
+        )}
         {errors?.email?.type === "pattern" && (
-          <p>Email address must contain the "@" symbol</p>
+          <p className={s2.error}>Email address must contain the "@" symbol</p>
         )}
         <FormControl variant="standard" size="small" margin="normal" fullWidth>
           <InputLabel htmlFor="standard-adornment-password">
@@ -89,12 +92,14 @@ export const Login = () => {
             }
           />
         </FormControl>
-        {errors?.password?.type === "required" && <p>This field is required</p>}
+        {errors?.password?.type === "required" && (
+          <p className={s2.error}>This field is required</p>
+        )}
         {errors?.password?.type === "minLength" && (
-          <p>Minimum password 8 characters</p>
+          <p className={s2.error}>Minimum password 8 characters</p>
         )}
         {errors?.password?.type === "maxLength" && (
-          <p>Maximum password 18 characters</p>
+          <p className={s2.error}>Maximum password 18 characters</p>
         )}
         <FormControlLabel
           {...register("rememberMe")}

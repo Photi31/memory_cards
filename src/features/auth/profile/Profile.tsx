@@ -5,11 +5,15 @@ import avatar from "images/ava.jpeg";
 import photoIcon from "images/photoIcon.svg";
 import pencil from "images/pencil.svg";
 import logout from "images/logout.svg";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Button, FormControl, Input, InputLabel } from "@mui/material";
 import { MyButton } from "components/button/MyButton";
+import { Navigate } from "react-router-dom";
+import { useAppSelector } from "app/hooks";
 
 export const Profile = () => {
+  const isLogined = useAppSelector((state) => state.auth.isLogined);
+
   let [editMode, setEditMode] = useState<boolean>(false);
   let [title, setTitle] = useState<string>("Svetlana");
 
@@ -28,6 +32,7 @@ export const Profile = () => {
   const setPhotoHandler = () => {};
 
   const logoutHandler = (buttonName: string) => {};
+  if (!isLogined) return <Navigate to="/login" />;
 
   return (
     <div className={s2.authContainer}>
