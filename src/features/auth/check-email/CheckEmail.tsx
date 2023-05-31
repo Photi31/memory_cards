@@ -1,29 +1,25 @@
 import s2 from "features/auth/auth.module.css";
 import s1 from "app/App.module.css";
 import s from "./CheckEmail.module.css";
-import { MyButton } from "components/button/MyButton";
 import checkEmail from "images/sendEmail.svg";
-
-// type CheckEmailProps = {
-//   email: string;
-// };
+import { bigBlueButtonSX } from "common/styles/buttons";
+import { Button } from "@mui/material";
+import React from "react";
+import { useAppSelector } from "app/hooks";
 
 export const CheckEmail = () => {
-  const checkEmailHandler = (buttonName: string) => {};
+  const email = useAppSelector((state) => state.auth.checkedEmail);
 
   return (
     <div className={s2.authContainer}>
-      <h3 className={s1.title_fz26}>Forgot your password?</h3>
+      <h3 className={s1.title_fz26}>Check Email</h3>
       <img className={s.checkEmailImg} src={checkEmail} alt="check email" />
       <div className={s.description}>
-        We’ve sent an Email with instructions to example@mail.com
+        We’ve sent an Email with instructions to {email}
       </div>
-      <MyButton
-        size="big"
-        color="blue"
-        name="Send Instructions"
-        onClick={checkEmailHandler}
-      />
+      <Button href="/login" variant="contained" sx={bigBlueButtonSX}>
+        Back to login
+      </Button>
     </div>
   );
 };

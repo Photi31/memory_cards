@@ -1,4 +1,4 @@
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import s2 from "features/auth/auth.module.css";
 import s1 from "app/App.module.css";
@@ -17,9 +17,10 @@ import React, { useState } from "react";
 import { bigBlueButtonSX } from "common/styles/buttons";
 import { useForm } from "react-hook-form";
 import { emailValidation, passwordValidation } from "common/validations";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 
 export const Register = () => {
+  const isRegister = useAppSelector((state) => state.auth.isRegister);
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const {
@@ -28,13 +29,7 @@ export const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const arg = {
-    email: "photi31@gmail.com",
-    password: "12345677",
-  };
-
   const onSubmit = (data: any) => {
-    console.log(data);
     dispatch(
       authThunks.register({ email: data.email, password: data.password })
     );
@@ -44,19 +39,26 @@ export const Register = () => {
     setShowPassword(!showPassword);
   };
 
+  if (isRegister) return <Navigate to="/login" />;
+
   return (
     <div className={s2.authContainer}>
       <h3 className={s1.title_fz26}>Sing in</h3>
       <form className={s1.form} onSubmit={handleSubmit(onSubmit)}>
         <TextField
           {...register("email", emailValidation)}
-          type="email"
           variant="standard"
           label="Email"
           size="small"
           margin="normal"
           fullWidth
         />
+        {errors?.email?.type === "required" && (
+          <p className={s2.error}>This field is required</p>
+        )}
+        {errors?.email?.type === "pattern" && (
+          <p className={s2.error}>Email address must contain the "@" symbol</p>
+        )}
         <FormControl variant="standard" size="small" margin="normal" fullWidth>
           <InputLabel htmlFor="standard-adornment-password">
             Password
@@ -78,6 +80,15 @@ export const Register = () => {
             }
           />
         </FormControl>
+        {errors?.password?.type === "required" && (
+          <p className={s2.error}>This field is required</p>
+        )}
+        {errors?.password?.type === "minLength" && (
+          <p className={s2.error}>Minimum password 8 characters</p>
+        )}
+        {errors?.password?.type === "maxLength" && (
+          <p className={s2.error}>Maximum password 18 characters</p>
+        )}
         <FormControl variant="standard" size="small" margin="normal" fullWidth>
           <InputLabel htmlFor="standard-adornment-password">
             Confirm password
@@ -99,6 +110,15 @@ export const Register = () => {
             }
           />
         </FormControl>
+        {errors?.confirmPassword?.type === "required" && (
+          <p className={s2.error}>This field is required</p>
+        )}
+        {errors?.confirmPassword?.type === "minLength" && (
+          <p className={s2.error}>Minimum password 8 characters</p>
+        )}
+        {errors?.confirmPassword?.type === "maxLength" && (
+          <p className={s2.error}>Maximum password 18 characters</p>
+        )}
         <div className={s.indent}></div>
         <Button variant="contained" type="submit" sx={bigBlueButtonSX}>
           Sign Up

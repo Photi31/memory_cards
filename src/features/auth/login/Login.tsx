@@ -48,7 +48,6 @@ export const Login = () => {
       <form className={s1.form} onSubmit={handleSubmit(onSubmit)}>
         <TextField
           {...register("email", emailValidation)}
-          type="email"
           variant="standard"
           label="Email"
           size="small"

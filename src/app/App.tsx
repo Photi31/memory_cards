@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "app/App.module.css";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { appActions } from "app/app.slice";
 import s from "./App.module.css";
 import { Header } from "components/header/Header";
 import { Register } from "features/auth/register/Register";
@@ -19,6 +18,7 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import { authThunks } from "features/auth/auth.slice";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     element: <ForgotPassword />,
   },
   {
-    path: "forgotPassword/setNewPassword",
+    path: "forgotPassword/setNewPassword/:token",
     element: <SetNewPassword />,
   },
   {
@@ -76,9 +76,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(appActions.setIsLoading({ isLoading: false }));
-    }, 3000);
+    dispatch(authThunks.me());
   }, []);
 
   return (

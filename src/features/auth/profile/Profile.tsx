@@ -7,15 +7,17 @@ import pencil from "images/pencil.svg";
 import React, { ChangeEvent, useState } from "react";
 import { Button, FormControl, Input, InputLabel } from "@mui/material";
 import { Navigate } from "react-router-dom";
-import { useAppSelector } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import {
   smallButtonForChangeNameSX,
   smallGrayButtonSX,
 } from "common/styles/buttons";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { authThunks } from "features/auth/auth.slice";
 
 export const Profile = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth);
+  const dispatch = useAppDispatch();
 
   let [editMode, setEditMode] = useState<boolean>(false);
   let [title, setTitle] = useState<string>("Svetlana");
@@ -34,7 +36,9 @@ export const Profile = () => {
 
   const setPhotoHandler = () => {};
 
-  const logoutHandler = () => {};
+  const logoutHandler = () => {
+    dispatch(authThunks.logout());
+  };
   if (!isAuth) return <Navigate to="/login" />;
 
   return (
@@ -61,6 +65,7 @@ export const Profile = () => {
                 variant="contained"
                 sx={smallButtonForChangeNameSX}
                 onClick={activateViewMode}
+                type="submit"
               >
                 SAVE
               </Button>
@@ -77,9 +82,9 @@ export const Profile = () => {
       <div className={s.email}>j&johnson@gmail.com</div>
       <Button
         variant="contained"
-        type="submit"
         sx={smallGrayButtonSX}
         startIcon={<LogoutIcon />}
+        onClick={logoutHandler}
       >
         Log out
       </Button>
