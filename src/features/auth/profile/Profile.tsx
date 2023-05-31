@@ -4,15 +4,18 @@ import s from "./Profile.module.css";
 import avatar from "images/ava.jpeg";
 import photoIcon from "images/photoIcon.svg";
 import pencil from "images/pencil.svg";
-import logout from "images/logout.svg";
 import React, { ChangeEvent, useState } from "react";
 import { Button, FormControl, Input, InputLabel } from "@mui/material";
-import { MyButton } from "components/button/MyButton";
 import { Navigate } from "react-router-dom";
 import { useAppSelector } from "app/hooks";
+import {
+  smallButtonForChangeNameSX,
+  smallGrayButtonSX,
+} from "common/styles/buttons";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export const Profile = () => {
-  const isLogined = useAppSelector((state) => state.auth.isLogined);
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
 
   let [editMode, setEditMode] = useState<boolean>(false);
   let [title, setTitle] = useState<string>("Svetlana");
@@ -31,8 +34,8 @@ export const Profile = () => {
 
   const setPhotoHandler = () => {};
 
-  const logoutHandler = (buttonName: string) => {};
-  if (!isLogined) return <Navigate to="/login" />;
+  const logoutHandler = () => {};
+  if (!isAuth) return <Navigate to="/login" />;
 
   return (
     <div className={s2.authContainer}>
@@ -56,14 +59,7 @@ export const Profile = () => {
               <Button
                 size="small"
                 variant="contained"
-                sx={{
-                  bgcolor: "#366EFF",
-                  marginBottom: "4px",
-                  height: "24px",
-                  fontSize: "12px",
-                  lineHeight: "24px",
-                  fontWeight: "400",
-                }}
+                sx={smallButtonForChangeNameSX}
                 onClick={activateViewMode}
               >
                 SAVE
@@ -79,15 +75,14 @@ export const Profile = () => {
       )}
 
       <div className={s.email}>j&johnson@gmail.com</div>
-      <div className={s.button}>
-        <MyButton
-          size="small"
-          color="gray"
-          name="Log out"
-          onClick={logoutHandler}
-          startIcon={logout}
-        />
-      </div>
+      <Button
+        variant="contained"
+        type="submit"
+        sx={smallGrayButtonSX}
+        startIcon={<LogoutIcon />}
+      >
+        Log out
+      </Button>
     </div>
   );
 };

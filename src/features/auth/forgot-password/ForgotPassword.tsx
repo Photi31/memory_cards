@@ -4,16 +4,12 @@ import s from "./ForgotPassword.module.css";
 import { TextField } from "@mui/material";
 import { MyButton } from "components/button/MyButton";
 import { useAppDispatch } from "app/hooks";
-import { MouseEvent } from "react";
+import { NavLink } from "react-router-dom";
 
 export const ForgotPassword = () => {
   const dispatch = useAppDispatch();
 
   const forgotPasswordHandler = (buttonName: string) => {};
-
-  const tryLogin = (e: MouseEvent<HTMLDivElement>) => {
-    console.log(e);
-  };
 
   return (
     <div className={s2.authContainer}>
@@ -38,9 +34,9 @@ export const ForgotPassword = () => {
         />
       </form>
       <div className={s2.description}>Did you remember your password?</div>
-      <div className={s2.link} onClick={tryLogin}>
+      <NavLink to="/register" className={s2.link}>
         Sign Up
-      </div>
+      </NavLink>
     </div>
   );
 };

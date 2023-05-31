@@ -34,3 +34,11 @@ export const smallGrayButtonSX = {
   color: "#000000",
   opacity: "0.8",
 };
+export const smallButtonForChangeNameSX = {
+  bgcolor: "#366EFF",
+  marginBottom: "4px",
+  height: "24px",
+  fontSize: "12px",
+  lineHeight: "24px",
+  fontWeight: "400",
+};

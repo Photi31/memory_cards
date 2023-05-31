@@ -31,23 +31,16 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     profile: null as ProfileType | null,
-    isLogined: false,
-    activateRegistration: false,
+    isAuth: false,
   },
   reducers: {
     // setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
     //   state.profile = action.payload.profile;
-    activateRegistration: (
-      state,
-      action: PayloadAction<{ activateRegistration: boolean }>
-    ) => {
-      state.activateRegistration = action.payload.activateRegistration;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
       state.profile = action.payload.profile;
-      state.isLogined = true;
+      state.isAuth = true;
     });
   },
 });

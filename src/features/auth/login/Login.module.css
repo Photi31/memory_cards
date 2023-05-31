@@ -1,8 +1,11 @@
 .forgotPassword {
+  display: block;
   margin: 25px 0 70px 0;
   text-align: end;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
   cursor: pointer;
+  text-decoration: none;
+  color: #000;
 }

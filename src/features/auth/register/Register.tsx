@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { authActions, authThunks } from "features/auth/auth.slice";
+import { useAppDispatch } from "app/hooks";
+import { authThunks } from "features/auth/auth.slice";
 import s2 from "features/auth/auth.module.css";
 import s1 from "app/App.module.css";
 import s from "./Register.module.css";
@@ -13,17 +13,14 @@ import {
   TextField,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import React, { MouseEvent, useState } from "react";
+import React, { useState } from "react";
 import { bigBlueButtonSX } from "common/styles/buttons";
 import { useForm } from "react-hook-form";
 import { emailValidation, passwordValidation } from "common/validations";
-import { Navigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export const Register = () => {
   const dispatch = useAppDispatch();
-  const isRegistrated = useAppSelector(
-    (state) => state.auth.activateRegistration
-  );
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const {
     register,
@@ -46,10 +43,6 @@ export const Register = () => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const singIn = () => {
-    dispatch(authActions.activateRegistration({ activateRegistration: false }));
-  };
-  if (!isRegistrated) return <Navigate to="/login" />;
 
   return (
     <div className={s2.authContainer}>
@@ -112,9 +105,9 @@ export const Register = () => {
         </Button>
       </form>
       <div className={s2.description}>Already have an account?</div>
-      <div className={s2.link} onClick={singIn}>
+      <NavLink className={s2.link} to="/login">
         Sign In
-      </div>
+      </NavLink>
     </div>
   );
 };

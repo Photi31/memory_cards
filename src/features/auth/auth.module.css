@@ -17,6 +17,7 @@
 }
 
 .link {
+  display: block;
   margin-top: 12px;
   font-weight: 600;
   font-size: 16px;

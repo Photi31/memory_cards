@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { authActions, authReducer, authThunks } from "features/auth/auth.slice";
+import { authThunks } from "features/auth/auth.slice";
 import s from "./Login.module.css";
 import s1 from "app/App.module.css";
 import s2 from "features/auth/auth.module.css";
@@ -15,18 +15,15 @@ import {
   Button,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import React, { MouseEvent, useState } from "react";
-import { Navigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Navigate, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { bigBlueButtonSX } from "common/styles/buttons";
 import { emailValidation, passwordValidation } from "common/validations";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const isLogined = useAppSelector((state) => state.auth.isLogined);
-  const isRegistrated = useAppSelector(
-    (state) => state.auth.activateRegistration
-  );
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
   const dispatch = useAppDispatch();
 
   const {
@@ -42,15 +39,8 @@ export const Login = () => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const forgotPassword = () => {
-    console.log("forgot password");
-    return <Navigate to="/forgotPassword" />; //todo
-  };
-  const singUp = () => {
-    dispatch(authActions.activateRegistration({ activateRegistration: true }));
-  };
-  if (isRegistrated) return <Navigate to="/register" />;
-  if (isLogined) return <Navigate to="/profile" />;
+
+  if (isAuth) return <Navigate to="/profile" />;
 
   return (
     <div className={s2.authContainer}>
@@ -106,17 +96,17 @@ export const Login = () => {
           control={<Checkbox defaultChecked />}
           label="Remember me"
         />
-        <div className={s.forgotPassword} onClick={forgotPassword}>
+        <NavLink to="/forgotPassword" className={s.forgotPassword}>
           Forgot Password?
-        </div>
+        </NavLink>
         <Button variant="contained" type="submit" sx={bigBlueButtonSX}>
           Sing in
         </Button>
       </form>
       <div className={s2.description}>You don't have an account yet?</div>
-      <div className={s2.link} onClick={singUp}>
+      <NavLink className={s2.link} to="/register">
         Sign Up
-      </div>
+      </NavLink>
     </div>
   );
 };
