@@ -19,6 +19,9 @@ export const authApi = {
   setNewPassword: (arg: ArgSetPasswordType) => {
     return instance.post<ResponseDeleteType>("auth/set-new-password", arg);
   },
+  setName: (arg: ArgSetNameType) => {
+    return instance.put<SetNameResponseType>("auth/me", arg);
+  },
 };
 
 export type ProfileType = {
@@ -56,4 +59,13 @@ export type ArgForgotType = {
 export type ArgSetPasswordType = {
   password: string;
   resetPasswordToken: string;
+};
+export type ArgSetNameType = {
+  name?: string;
+  avatar?: string;
+};
+export type SetNameResponseType = {
+  updatedUser: ProfileType;
+  token: string;
+  tokenDeathTime: number;
 };

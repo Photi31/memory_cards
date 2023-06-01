@@ -4,7 +4,7 @@ import s from "./Profile.module.css";
 import avatar from "images/ava.jpeg";
 import photoIcon from "images/photoIcon.svg";
 import pencil from "images/pencil.svg";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { Button, FormControl, Input, InputLabel } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "app/hooks";
@@ -14,24 +14,27 @@ import {
 } from "common/styles/buttons";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { authThunks } from "features/auth/auth.slice";
+import { useForm } from "react-hook-form";
 
 export const Profile = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth);
+  const profile = useAppSelector((state) => state.auth.profile);
   const dispatch = useAppDispatch();
 
   let [editMode, setEditMode] = useState<boolean>(false);
-  let [title, setTitle] = useState<string>("Svetlana");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => {
+    setEditMode(false);
+    dispatch(authThunks.setName({ name: data.newName }));
+  };
 
   const activateEditMode = () => {
     setEditMode(true);
-    setTitle(title);
-  };
-  const activateViewMode = () => {
-    setEditMode(false);
-    // TODO dispatch new name
-  };
-  const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value);
   };
 
   const setPhotoHandler = () => {};
@@ -51,35 +54,40 @@ export const Profile = () => {
         </div>
       </div>
       {editMode ? (
-        <FormControl variant="standard" size="small" margin="normal" fullWidth>
-          <InputLabel htmlFor="change-name">Nickname</InputLabel>
-          <Input
-            id="change-name"
-            type="text"
-            value={title}
-            onChange={changeTitle}
-            autoFocus
-            endAdornment={
-              <Button
-                size="small"
-                variant="contained"
-                sx={smallButtonForChangeNameSX}
-                onClick={activateViewMode}
-                type="submit"
-              >
-                SAVE
-              </Button>
-            }
-          />
-        </FormControl>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl
+            variant="standard"
+            size="small"
+            margin="normal"
+            fullWidth
+          >
+            <InputLabel htmlFor="change-name">Nickname</InputLabel>
+            <Input
+              {...register("newName")}
+              id="change-name"
+              type="text"
+              autoFocus
+              endAdornment={
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={smallButtonForChangeNameSX}
+                  type="submit"
+                >
+                  SAVE
+                </Button>
+              }
+            />
+          </FormControl>
+        </form>
       ) : (
         <div className={s.nameBlock} onDoubleClick={activateEditMode}>
-          <div>{title}</div>
+          <div>{profile?.name}</div>
           <img className={s.setNameIcon} src={pencil} alt="pencil" />
         </div>
       )}
 
-      <div className={s.email}>j&johnson@gmail.com</div>
+      <div className={s.email}>{profile?.email}</div>
       <Button
         variant="contained"
         sx={smallGrayButtonSX}

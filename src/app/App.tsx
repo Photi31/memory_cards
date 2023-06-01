@@ -73,11 +73,23 @@ const router = createBrowserRouter([
 
 function App() {
   const isLoading = useAppSelector((state) => state.app.isLoading);
+  const isAppInitialized = useAppSelector(
+    (state) => state.app.isAppInitialized
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(authThunks.me());
   }, []);
+
+  // if (!isAppInitialized) {
+  //   return (
+  //       <div className={s.App}>
+  //         <Header />
+  //         ...Loading
+  //       </div>
+  //   );
+  // }
 
   return (
     <div className={s.App}>
@@ -91,53 +103,3 @@ function App() {
 }
 
 export default App;
-
-// const StartCounter = () => {
-//   return (
-//     <header className="App-header">
-//       <img src={logo} className="App-logo" alt="logo" />
-//       <Counter />
-//       <p>
-//         Edit <code>src/App.tsx</code> and save to reload.
-//       </p>
-//       <span>
-//           <span>Learn </span>
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org/"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             React
-//           </a>
-//           <span>, </span>
-//           <a
-//             className="App-link"
-//             href="https://redux.js.org/"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Redux
-//           </a>
-//           <span>, </span>
-//           <a
-//             className="App-link"
-//             href="https://redux-toolkit.js.org/"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Redux Toolkit
-//           </a>
-//           ,<span> and </span>
-//           <a
-//             className="App-link"
-//             href="https://react-redux.js.org/"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             React Redux
-//           </a>
-//         </span>
-//     </header>
-//   )
-// }

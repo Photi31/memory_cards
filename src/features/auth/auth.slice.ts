@@ -3,6 +3,7 @@ import {
   ArgForgotType,
   ArgLoginType,
   ArgRegisterType,
+  ArgSetNameType,
   ArgSetPasswordType,
   authApi,
   ProfileType,
@@ -53,6 +54,14 @@ const setNewPassword = createAsyncThunk(
     return res;
   }
 );
+const setName = createAsyncThunk(
+  "auth/setName",
+  async (arg: ArgSetNameType) => {
+    const res = await authApi.setName(arg);
+    console.log(res);
+    return { profile: res.data.updatedUser };
+  }
+);
 
 const slice = createSlice({
   name: "auth",
@@ -90,6 +99,10 @@ const slice = createSlice({
     builder.addCase(setNewPassword.fulfilled, (state, action) => {
       state.setNewPassword = true;
     });
+    builder.addCase(setName.fulfilled, (state, action) => {
+      console.log("set name ok");
+      state.profile = action.payload.profile;
+    });
   },
 });
 
@@ -102,4 +115,5 @@ export const authThunks = {
   logout,
   forgotPassword,
   setNewPassword,
+  setName,
 };
