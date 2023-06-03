@@ -1,5 +1,5 @@
 import React, { MouseEvent } from "react";
-import s from "./Button.module.css";
+import s from "components/button/Button.module.css";
 
 type ButtonPropsType = {
   size: string;

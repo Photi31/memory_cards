@@ -1,23 +1,26 @@
 import React, { useState } from "react";
-import s from "./Header.module.css";
+import s from "components/header/Header.module.css";
 import logo from "images/incubatorLogo.svg";
-import { smallBlueButtonSX } from "common/styles/buttons";
+import { smallBlueButtonSX } from "components/button/buttons";
 import { Button } from "@mui/material";
-import { useAppSelector } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import avatar from "images/ava.jpeg";
 import user from "images/user.svg";
 import logout from "images/logout.svg";
+import { NavLink } from "react-router-dom";
+import { authThunks } from "features/auth/auth.slice";
 
 export const Header = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const menuHandler = () => {
     setOpenMenu(!openMenu);
   };
 
   const logoutHandler = () => {
-    //TODO logout
+    dispatch(authThunks.logout());
   };
 
   return (
@@ -34,12 +37,10 @@ export const Header = () => {
             </div>
             {openMenu && (
               <ul className={s.userMenu}>
-                <li className={s.menuItem}>
-                  {/*<a href="/profile">*/}
+                <NavLink to="/profile" className={s.menuItem}>
                   <img src={user} alt="user" />
                   <span>Profile</span>
-                  {/*</a>*/}
-                </li>
+                </NavLink>
                 <li className={s.menuItem} onClick={logoutHandler}>
                   <img src={logout} alt="logout" />
                   <span>Log out</span>
@@ -48,9 +49,11 @@ export const Header = () => {
             )}
           </div>
         ) : (
-          <Button href="/login" variant="contained" sx={smallBlueButtonSX}>
-            Sing in
-          </Button>
+          <NavLink to="/login">
+            <Button variant="contained" sx={smallBlueButtonSX}>
+              Sing in
+            </Button>
+          </NavLink>
         )}
       </div>
     </header>

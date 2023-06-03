@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { Navigate, useParams } from "react-router-dom";
 import { authThunks } from "features/auth/auth.slice";
-import { bigBlueButtonSX } from "common/styles/buttons";
+import { bigBlueButtonSX } from "components/button/buttons";
 import { useForm } from "react-hook-form";
 import { passwordValidation } from "common/validations";
 

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "app/App.module.css";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import s from "./App.module.css";
-import { Header } from "components/header/Header";
 import { Register } from "features/auth/register/Register";
 import { Login } from "features/auth/login/Login";
 import { Profile } from "features/auth/profile/Profile";
@@ -19,55 +18,62 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { authThunks } from "features/auth/auth.slice";
+import { Layout } from "components/layout/Layout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="profile" />,
-  },
-  {
-    path: "register",
-    element: <Register />,
-  },
-  {
-    path: "login",
-    element: <Login />,
-  },
-  {
-    path: "profile",
-    element: <Profile />,
-  },
-  {
-    path: "forgotPassword",
-    element: <ForgotPassword />,
-  },
-  {
-    path: "forgotPassword/setNewPassword/:token",
-    element: <SetNewPassword />,
-  },
-  {
-    path: "forgotPassword/checkEmail",
-    element: <CheckEmail />,
-  },
-  {
-    path: "cards",
-    element: <Cards />,
-  },
-  {
-    path: "learn",
-    element: <Learn />,
-  },
-  {
-    path: "packs",
-    element: <Packs />,
-  },
-  {
-    path: "404",
-    element: <Error404 />,
-  },
-  {
-    path: "*",
-    element: <Navigate to="404" />,
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Navigate to="profile" />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "forgotPassword",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "forgotPassword/setNewPassword/:token",
+        element: <SetNewPassword />,
+      },
+      {
+        path: "forgotPassword/checkEmail",
+        element: <CheckEmail />,
+      },
+      {
+        path: "cards",
+        element: <Cards />,
+      },
+      {
+        path: "learn",
+        element: <Learn />,
+      },
+      {
+        path: "packs",
+        element: <Packs />,
+      },
+      {
+        path: "404",
+        element: <Error404 />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="404" />,
+      },
+    ],
   },
 ]);
 
@@ -93,11 +99,7 @@ function App() {
 
   return (
     <div className={s.App}>
-      <Header />
-      <div className={s.container}>
-        {/*<h1>{isLoading ? "Loading..." : "App"}</h1>*/}
-        <RouterProvider router={router} />
-      </div>
+      <RouterProvider router={router} />
     </div>
   );
 }

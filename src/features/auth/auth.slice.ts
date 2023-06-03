@@ -10,6 +10,15 @@ import {
 } from "features/auth/auth.api";
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 
+// const createThunkAction = <A, R, T>(
+//     promise: (arg: A) => Promise<R>,
+//     transformPromise: (arg: R) => T,
+// ) => {
+//   return (arg: A, thunkAPI: any) => {
+//     return thunkTryCatch(thunkAPI, () => promise(arg).then(transformPromise))
+//   }
+// }
+
 const register = createAsyncThunk(
   "auth/register",
   async (arg: ArgRegisterType) => {
@@ -97,6 +106,7 @@ const slice = createSlice({
       state.setNewPassword = false;
     });
     builder.addCase(setNewPassword.fulfilled, (state, action) => {
+      //TODO
       state.setNewPassword = true;
     });
     builder.addCase(setName.fulfilled, (state, action) => {

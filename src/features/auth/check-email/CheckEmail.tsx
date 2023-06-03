@@ -2,7 +2,7 @@ import s2 from "features/auth/auth.module.css";
 import s1 from "app/App.module.css";
 import s from "./CheckEmail.module.css";
 import checkEmail from "images/sendEmail.svg";
-import { bigBlueButtonSX } from "common/styles/buttons";
+import { bigBlueButtonSX } from "components/button/buttons";
 import { Button } from "@mui/material";
 import React from "react";
 import { useAppSelector } from "app/hooks";

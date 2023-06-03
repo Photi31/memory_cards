@@ -3,8 +3,8 @@ import s1 from "app/App.module.css";
 import s from "./ForgotPassword.module.css";
 import { Button, TextField } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { Navigate, NavLink } from "react-router-dom";
-import { bigBlueButtonSX } from "common/styles/buttons";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { bigBlueButtonSX } from "components/button/buttons";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { emailValidation } from "common/validations";
@@ -13,6 +13,7 @@ import { authThunks } from "features/auth/auth.slice";
 export const ForgotPassword = () => {
   const dispatch = useAppDispatch();
   const email = useAppSelector((state) => state.auth.checkedEmail);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -31,6 +32,7 @@ link</a>
 
   const onSubmit = (data: any) => {
     dispatch(authThunks.forgotPassword({ email: data.email, message }));
+    // navigate("/forgotPassword/checkEmail");
   };
 
   if (email) return <Navigate to="/forgotPassword/checkEmail" />;

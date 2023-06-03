@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import {
   smallButtonForChangeNameSX,
   smallGrayButtonSX,
-} from "common/styles/buttons";
+} from "components/button/buttons";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { authThunks } from "features/auth/auth.slice";
 import { useForm } from "react-hook-form";

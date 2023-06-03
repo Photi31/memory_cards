@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
-import { bigBlueButtonSX } from "common/styles/buttons";
+import { bigBlueButtonSX } from "components/button/buttons";
 import { useForm } from "react-hook-form";
 import { emailValidation, passwordValidation } from "common/validations";
 import { Navigate, NavLink } from "react-router-dom";

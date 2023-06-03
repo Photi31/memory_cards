@@ -18,7 +18,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { bigBlueButtonSX } from "common/styles/buttons";
+import { bigBlueButtonSX } from "components/button/buttons";
 import { emailValidation, passwordValidation } from "common/validations";
 
 export const Login = () => {
