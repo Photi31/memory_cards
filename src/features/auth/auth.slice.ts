@@ -8,7 +8,9 @@ import {
   authApi,
   ProfileType,
 } from "features/auth/auth.api";
-import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
+import { createAppAsyncThunk } from "common/utils";
+import { thunkTryCatch } from "common/utils";
+import { toast } from "react-toastify";
 
 // const createThunkAction = <A, R, T>(
 //     promise: (arg: A) => Promise<R>,
@@ -18,57 +20,68 @@ import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 //     return thunkTryCatch(thunkAPI, () => promise(arg).then(transformPromise))
 //   }
 // }
-
 const register = createAsyncThunk(
   "auth/register",
-  async (arg: ArgRegisterType) => {
-    try {
-      const res = await authApi.register(arg);
-      return res;
-    } catch (e) {
-      console.log(e);
-    }
-    // return true ;
+  async (arg: ArgRegisterType, thunkAPI: any) => {
+    return thunkTryCatch(
+      thunkAPI,
+      async () => {
+        await authApi.register(arg);
+      },
+      { showGlobalError: true }
+    );
   }
 );
+
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   "auth/login",
-  async (arg: ArgLoginType) => {
-    const res = await authApi.login(arg);
-    return { profile: res.data };
+  async (arg: ArgLoginType, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authApi.login(arg);
+      console.log(res);
+      return { profile: res.data };
+    });
   }
 );
 const me = createAppAsyncThunk<{ profile: ProfileType }, void>(
   "auth/me",
-  async () => {
-    const res = await authApi.me();
-    return { profile: res.data };
+  async (thunkAPI: any) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authApi.me();
+      return { profile: res.data };
+    });
   }
 );
 const logout = createAsyncThunk("auth/logout", async () => {
-  const res = await authApi.logout();
-  return res;
+  await authApi.logout();
+  return;
 });
+
 const forgotPassword = createAsyncThunk(
   "auth/forgot",
-  async (arg: ArgForgotType) => {
-    await authApi.forgotPassword(arg);
-    return { email: arg.email };
+  async (arg: ArgForgotType, thunkAPI: any) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      await authApi.forgotPassword(arg);
+      return { email: arg.email };
+    });
   }
 );
 const setNewPassword = createAsyncThunk(
   "auth/setNewPassword",
-  async (arg: ArgSetPasswordType) => {
-    const res = await authApi.setNewPassword(arg);
-    return res;
+  async (arg: ArgSetPasswordType, thunkAPI: any) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authApi.setNewPassword(arg);
+      return res;
+    });
   }
 );
 const setName = createAsyncThunk(
   "auth/setName",
-  async (arg: ArgSetNameType) => {
-    const res = await authApi.setName(arg);
-    console.log(res);
-    return { profile: res.data.updatedUser };
+  async (arg: ArgSetNameType, thunkAPI: any) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await authApi.setName(arg);
+      return { profile: res.data.updatedUser };
+    });
   }
 );
 
@@ -76,8 +89,6 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     profile: null as ProfileType | null,
-    isAuth: false,
-    isRegister: false,
     checkedEmail: null as string | null,
     setNewPassword: false,
   },
@@ -87,18 +98,15 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(register.fulfilled, (state, action) => {
-      state.isRegister = true;
+      toast.success("Вы успешно зарегистрировались!");
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.profile = action.payload.profile;
-      state.isAuth = true;
     });
     builder.addCase(me.fulfilled, (state, action) => {
       state.profile = action.payload.profile;
-      state.isAuth = true;
     });
     builder.addCase(logout.fulfilled, (state, action) => {
-      state.isAuth = false;
       state.profile = null;
     });
     builder.addCase(forgotPassword.fulfilled, (state, action) => {
@@ -110,7 +118,6 @@ const slice = createSlice({
       state.setNewPassword = true;
     });
     builder.addCase(setName.fulfilled, (state, action) => {
-      console.log("set name ok");
       state.profile = action.payload.profile;
     });
   },

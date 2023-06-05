@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "app/App.module.css";
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import s from "./App.module.css";
 import { Register } from "features/auth/register/Register";
 import { Login } from "features/auth/login/Login";
@@ -19,6 +18,10 @@ import {
 } from "react-router-dom";
 import { authThunks } from "features/auth/auth.slice";
 import { Layout } from "components/layout/Layout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAppDispatch } from "common/hooks";
+import { useAppSelector } from "common/hooks";
 
 const router = createBrowserRouter([
   {
@@ -84,21 +87,24 @@ function App() {
   );
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(authThunks.me());
-  }, []);
-
-  // if (!isAppInitialized) {
-  //   return (
-  //       <div className={s.App}>
-  //         <Header />
-  //         ...Loading
-  //       </div>
-  //   );
-  // }
+  // useEffect(() => {
+  //   dispatch(authThunks.me());
+  // }, []);
 
   return (
     <div className={s.App}>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <RouterProvider router={router} />
     </div>
   );

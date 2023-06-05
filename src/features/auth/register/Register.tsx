@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import s2 from "features/auth/auth.module.css";
 import s1 from "app/App.module.css";
@@ -14,14 +13,16 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
-import { bigBlueButtonSX } from "components/button/buttons";
+import { bigBlueButtonSX } from "common/variableForStylization/buttonsStyle";
 import { useForm } from "react-hook-form";
 import { emailValidation, passwordValidation } from "common/validations";
-import { Navigate, NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 export const Register = () => {
-  const isRegister = useAppSelector((state) => state.auth.isRegister);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const {
     register,
@@ -32,18 +33,20 @@ export const Register = () => {
   const onSubmit = (data: any) => {
     dispatch(
       authThunks.register({ email: data.email, password: data.password })
-    );
+    )
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      });
   };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  if (isRegister) return <Navigate to="/login" />;
-
   return (
     <div className={s2.authContainer}>
-      <h3 className={s1.title_fz26}>Sing in</h3>
+      <h3 className={s1.title_fz26}>Sing up</h3>
       <form className={s1.form} onSubmit={handleSubmit(onSubmit)}>
         <TextField
           {...register("email", emailValidation)}
@@ -95,7 +98,6 @@ export const Register = () => {
           </InputLabel>
           <Input
             {...register("confirmPassword", passwordValidation)}
-            id="standard-adornment-password"
             type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">

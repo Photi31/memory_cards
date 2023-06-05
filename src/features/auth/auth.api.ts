@@ -1,4 +1,4 @@
-import { instance } from "common/api/common.api";
+import { instance } from "common/api";
 
 export const authApi = {
   register: (arg: ArgRegisterType) => {

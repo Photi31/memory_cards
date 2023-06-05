@@ -1,33 +1,39 @@
 import React, { useState } from "react";
 import s from "components/header/Header.module.css";
 import logo from "images/incubatorLogo.svg";
-import { smallBlueButtonSX } from "components/button/buttons";
+import { smallBlueButtonSX } from "common/variableForStylization/buttonsStyle";
 import { Button } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import avatar from "images/ava.jpeg";
 import user from "images/user.svg";
 import logout from "images/logout.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { authThunks } from "features/auth/auth.slice";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { useAppSelector } from "common/hooks/useAppSelector";
 
 export const Header = () => {
-  const isAuth = useAppSelector((state) => state.auth.isAuth);
+  const profile = useAppSelector((state) => state.auth.profile);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const menuHandler = () => {
     setOpenMenu(!openMenu);
   };
 
   const logoutHandler = () => {
-    dispatch(authThunks.logout());
+    dispatch(authThunks.logout())
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      });
   };
 
   return (
     <header className={s.header}>
       <div className={s.container}>
         <img className={s.logo} src={logo} alt="logo" />
-        {isAuth ? (
+        {profile ? (
           <div className={s.userBlock}>
             <div className={s.user}>
               <span className={s.userName} onClick={menuHandler}>

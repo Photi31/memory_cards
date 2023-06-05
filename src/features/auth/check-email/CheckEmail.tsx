@@ -2,10 +2,10 @@ import s2 from "features/auth/auth.module.css";
 import s1 from "app/App.module.css";
 import s from "./CheckEmail.module.css";
 import checkEmail from "images/sendEmail.svg";
-import { bigBlueButtonSX } from "components/button/buttons";
+import { bigBlueButtonSX } from "common/variableForStylization/buttonsStyle";
 import { Button } from "@mui/material";
 import React from "react";
-import { useAppSelector } from "app/hooks";
+import { useAppSelector } from "common/hooks/useAppSelector";
 
 export const CheckEmail = () => {
   const email = useAppSelector((state) => state.auth.checkedEmail);

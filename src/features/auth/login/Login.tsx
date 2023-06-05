@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import s from "./Login.module.css";
 import s1 from "app/App.module.css";
@@ -16,15 +15,16 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { bigBlueButtonSX } from "components/button/buttons";
+import { bigBlueButtonSX } from "common/variableForStylization/buttonsStyle";
 import { emailValidation, passwordValidation } from "common/validations";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const isAuth = useAppSelector((state) => state.auth.isAuth);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -33,14 +33,16 @@ export const Login = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    dispatch(authThunks.login(data));
+    dispatch(authThunks.login(data))
+      .unwrap()
+      .then(() => {
+        navigate("/packs");
+      });
   };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
-  if (isAuth) return <Navigate to="/profile" />;
 
   return (
     <div className={s2.authContainer}>

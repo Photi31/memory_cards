@@ -1,3 +1,25 @@
+.profile {
+  position: relative;
+}
+.back {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  position: absolute;
+  top: -35px;
+  left: 10px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+.back:hover {
+  font-weight: 600;
+}
+
 .photoBlock {
   margin: 30px auto 0 auto;
   display: block;

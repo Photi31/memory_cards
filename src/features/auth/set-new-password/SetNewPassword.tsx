@@ -11,17 +11,18 @@ import {
 import s from "features/auth/forgot-password/ForgotPassword.module.css";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { Navigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { authThunks } from "features/auth/auth.slice";
-import { bigBlueButtonSX } from "components/button/buttons";
+import { bigBlueButtonSX } from "common/variableForStylization/buttonsStyle";
 import { useForm } from "react-hook-form";
 import { passwordValidation } from "common/validations";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 export const SetNewPassword = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const setPassword = useAppSelector((state) => state.auth.setNewPassword);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { token } = useParams<{ token: string }>();
   const {
     register,
@@ -37,15 +38,17 @@ export const SetNewPassword = () => {
           password: data.password,
           resetPasswordToken: token,
         })
-      );
+      )
+        .unwrap()
+        .then(() => {
+          navigate("/login");
+        });
     }
   };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
-  if (setPassword) return <Navigate to="/login" />;
 
   return (
     <div className={s2.authContainer}>
