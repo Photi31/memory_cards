@@ -6,16 +6,31 @@ export const packsApi = {
       params: { payload },
     });
   },
+  addPack: (arg: ArgAddCardsPackType) => {
+    return instance.post<{ newCardsPack: CardPacksType }>("/cards/pack", {
+      cardsPack: arg,
+    });
+  },
+  deletePack: (id: string) => {
+    return instance.delete<{ deletedCardsPack: CardPacksType }>("/cards/pack", {
+      params: { id },
+    });
+  },
+  changePack: (arg: ArgChangePackType) => {
+    return instance.put<{ updatedCardsPack: CardPacksType }>("/cards/pack", {
+      cardsPack: arg,
+    });
+  },
 };
 
 export type ArgGetPacksType = {
   packName?: string; // не обязательно
   min?: number; // не обязательно
   max?: number; // не обязательно
-  sortPacks?: any; // не обязательно TODO
+  sortPacks?: string; // не обязательно TODO
   page?: number; // не обязательно
   pageCount?: number; // не обязательно
-  user_id?: number; // чьи колоды не обязательно, или придут все
+  user_id?: string; // чьи колоды не обязательно, или придут все
   block?: boolean;
 };
 export type GetPacksResponseType = {
@@ -45,4 +60,13 @@ export type CardPacksType = {
   created: string;
   updated: string;
   __v: number;
+};
+export type ArgAddCardsPackType = {
+  name: string;
+  deckCover?: string;
+  private: boolean;
+};
+export type ArgChangePackType = {
+  _id: string;
+  name?: string;
 };
