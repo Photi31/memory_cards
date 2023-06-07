@@ -5,9 +5,9 @@ import avatar from "images/ava.jpeg";
 import photoIcon from "images/photoIcon.svg";
 import pencil from "images/pencil.svg";
 import arrowBack from "images/arrowBack.svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, FormControl, Input, InputLabel } from "@mui/material";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   smallButtonForChangeNameSX,
   smallGrayButtonSX,

@@ -20,18 +20,16 @@ import { authThunks } from "features/auth/auth.slice";
 import { Layout } from "components/layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAppDispatch } from "common/hooks";
-import { useAppSelector } from "common/hooks";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      {
-        path: "/",
-        element: <Navigate to="profile" />,
-      },
+      // {
+      //   path: "/",
+      //   element: <Navigate to="profile" />,
+      // },
       {
         path: "register",
         element: <Register />,
@@ -81,16 +79,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const isLoading = useAppSelector((state) => state.app.isLoading);
-  const isAppInitialized = useAppSelector(
-    (state) => state.app.isAppInitialized
-  );
-  const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(authThunks.me());
-  // }, []);
-
   return (
     <div className={s.App}>
       <ToastContainer

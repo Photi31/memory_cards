@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   ArgForgotType,
   ArgLoginType,
@@ -20,9 +20,9 @@ import { toast } from "react-toastify";
 //     return thunkTryCatch(thunkAPI, () => promise(arg).then(transformPromise))
 //   }
 // }
-const register = createAsyncThunk(
+const register = createAppAsyncThunk<void, ArgRegisterType>(
   "auth/register",
-  async (arg: ArgRegisterType, thunkAPI: any) => {
+  async (arg: ArgRegisterType, thunkAPI) => {
     return thunkTryCatch(
       thunkAPI,
       async () => {
@@ -38,46 +38,45 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   async (arg: ArgLoginType, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await authApi.login(arg);
-      console.log(res);
       return { profile: res.data };
     });
   }
 );
-const me = createAppAsyncThunk<{ profile: ProfileType }, void>(
+const me = createAppAsyncThunk<{ profile: ProfileType }, {}>(
   "auth/me",
-  async (thunkAPI: any) => {
+  async (arg: {}, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await authApi.me();
+      const res = await authApi.me(arg);
       return { profile: res.data };
     });
   }
 );
-const logout = createAsyncThunk("auth/logout", async () => {
-  await authApi.logout();
+const logout = createAppAsyncThunk<void, void>("auth/logout", async () => {
+  const res = await authApi.logout();
   return;
 });
 
-const forgotPassword = createAsyncThunk(
+const forgotPassword = createAppAsyncThunk<{ email: string }, ArgForgotType>(
   "auth/forgot",
-  async (arg: ArgForgotType, thunkAPI: any) => {
+  async (arg: ArgForgotType, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       await authApi.forgotPassword(arg);
       return { email: arg.email };
     });
   }
 );
-const setNewPassword = createAsyncThunk(
+const setNewPassword = createAppAsyncThunk<void, ArgSetPasswordType>(
   "auth/setNewPassword",
-  async (arg: ArgSetPasswordType, thunkAPI: any) => {
+  async (arg: ArgSetPasswordType, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await authApi.setNewPassword(arg);
-      return res;
+      await authApi.setNewPassword(arg);
+      return;
     });
   }
 );
-const setName = createAsyncThunk(
+const setName = createAppAsyncThunk<{ profile: ProfileType }, ArgSetNameType>(
   "auth/setName",
-  async (arg: ArgSetNameType, thunkAPI: any) => {
+  async (arg: ArgSetNameType, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await authApi.setName(arg);
       return { profile: res.data.updatedUser };
@@ -114,7 +113,6 @@ const slice = createSlice({
       state.setNewPassword = false;
     });
     builder.addCase(setNewPassword.fulfilled, (state, action) => {
-      //TODO
       state.setNewPassword = true;
     });
     builder.addCase(setName.fulfilled, (state, action) => {
