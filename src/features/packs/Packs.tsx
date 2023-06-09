@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useAppDispatch, useAppSelector, useDebounce } from "common/hooks";
 import React, { ChangeEvent, useEffect, MouseEvent, useState } from "react";
 import { packsThunks } from "features/packs/packs.slice";
 import s1 from "app/App.module.css";
@@ -19,38 +19,51 @@ export const Packs = () => {
   const maxCardsCount = useAppSelector((state) => state.packs.maxCardsCount);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const payload = {};
+  const [minMax, setMinMax] = useState<number[]>([
+    minCardsCount,
+    maxCardsCount,
+  ]);
+  let queryParamsForGet = {
+    packName: "", // не обязательно
+    min: 0, // не обязательно
+    max: 0, // не обязательно
+    sortPacks: "", // не обязательно TODO
+    page: 0, // не обязательно
+    pageCount: 0, // не обязательно
+    user_id: "", // чьи колоды не обязательно, или придут все
+    block: false,
+  };
+  let payload = {};
+  const [inputValue, setInputValue] = useState<string>("");
+  const debouncedValue = useDebounce<string>(inputValue, 800);
 
   useEffect(() => {
     dispatch(packsThunks.getPacks(payload));
-  }, []);
+  }, [debouncedValue]);
 
   const newPack = {
-    name: "Sveta add new Pack",
+    name: "🦣 add new Pack",
   };
 
   const addNewPack = () => {
-    console.log("add new pack");
     dispatch(packsThunks.addPack(newPack));
   };
   const studyPack = (e: MouseEvent<HTMLDivElement>) => {
     console.log(e.currentTarget.id);
   };
   const renamePack = (e: MouseEvent<HTMLDivElement>) => {
-    console.log("rename pack");
     const newName = {
       _id: e.currentTarget.id,
-      name: "new name pack 111!!!",
+      name: " 🦁 new name pack 111!!!",
     };
     dispatch(packsThunks.changePack(newName));
   };
   const deletePack = (e: MouseEvent<HTMLDivElement>) => {
-    console.log("delete pack: ", e.currentTarget.id);
     dispatch(packsThunks.deletePack(e.currentTarget.id));
   };
 
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.currentTarget.value); //TODO debounce
+    setInputValue(e.currentTarget.value);
   };
 
   const showPack = (e: MouseEvent<HTMLSpanElement>) => {
@@ -59,10 +72,13 @@ export const Packs = () => {
 
   const changeRange = (event: any, value: number | number[]) => {
     if (Array.isArray(value)) {
-      console.log(value);
-      // setMinValue(value[0]);
-      // setMaxValue(value[1]);
+      setMinMax([value[0], value[1]]);
     }
+  };
+  const changeMinMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.currentTarget.id, +e.currentTarget.value);
+    if (e.currentTarget.id === "minValue")
+      setMinMax([+e.currentTarget.value, minMax[1]]);
   };
 
   if (!packs) return <h1>Loading...</h1>;
@@ -108,10 +124,10 @@ export const Packs = () => {
         <div className={s.filter}>
           <span className={s.filterTitle}>Show packs cards</span>
           <div className={s.showPackTumbler}>
-            <span className={s.show + " " + s.active} onClick={showPack}>
+            <span className={s.show} onClick={showPack}>
               My
             </span>
-            <span className={s.show} onClick={showPack}>
+            <span className={s.show + " " + s.active} onClick={showPack}>
               All
             </span>
           </div>
@@ -119,7 +135,12 @@ export const Packs = () => {
         <div className={s.filter}>
           <span className={s.filterTitle}>Number of cards</span>
           <div className={s.rangeBlock}>
-            <span className={s.number}>{minCardsCount}</span>
+            <input
+              id="minValue"
+              className={s.number}
+              value={minMax[0]}
+              onChange={changeMinMaxValue}
+            ></input>
             <Slider
               sx={{
                 // стили для слайдера // пишет студент
@@ -131,10 +152,17 @@ export const Packs = () => {
               }}
               size="small"
               onChangeCommitted={changeRange}
-              value={[minCardsCount, maxCardsCount]}
-              valueLabelDisplay="on"
+              min={minCardsCount}
+              max={maxCardsCount}
+              value={[minMax[0], minMax[1]]}
+              // valueLabelDisplay="on"
             />
-            <span className={s.number}>{maxCardsCount}</span>
+            <input
+              id="maxValue"
+              className={s.number}
+              value={minMax[1]}
+              onChange={changeMinMaxValue}
+            ></input>
           </div>
         </div>
         <div className={s.filter}>

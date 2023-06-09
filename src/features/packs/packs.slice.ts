@@ -8,7 +8,6 @@ import {
   packsApi,
 } from "features/packs/packs.api";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
-import { ArgSetNameType } from "features/auth/auth.api";
 
 const getPacks = createAppAsyncThunk<
   { response: GetPacksResponseType },
@@ -24,9 +23,10 @@ const getPacks = createAppAsyncThunk<
 const addPack = createAppAsyncThunk<void, ArgAddCardsPackType>(
   "packs/addPack",
   async (arg: ArgAddCardsPackType, thunkAPI) => {
+    const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
       await packsApi.addPack(arg);
-      return;
+      dispatch(getPacks({}));
     });
   }
 );
@@ -34,9 +34,10 @@ const addPack = createAppAsyncThunk<void, ArgAddCardsPackType>(
 const deletePack = createAppAsyncThunk<void, string>(
   "packs/deletePack",
   async (arg: string, thunkAPI) => {
+    const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
       await packsApi.deletePack(arg);
-      return;
+      dispatch(getPacks({}));
     });
   }
 );
@@ -44,9 +45,10 @@ const deletePack = createAppAsyncThunk<void, string>(
 const changePack = createAppAsyncThunk<void, ArgChangePackType>(
   "packs/changePack",
   async (arg: ArgChangePackType, thunkAPI) => {
+    const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
       await packsApi.changePack(arg);
-      return;
+      dispatch(getPacks({}));
     });
   }
 );
@@ -63,25 +65,15 @@ const slice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(getPacks.fulfilled, (state, action) => {
-        console.log(action.payload.response);
-        state.packs = action.payload.response.cardPacks;
-        state.page = action.payload.response.page;
-        state.cardPacksTotalCount = action.payload.response.cardPacksTotalCount;
-        state.maxCardsCount = action.payload.response.maxCardsCount;
-        state.minCardsCount = action.payload.response.minCardsCount;
-        state.pageCount = action.payload.response.pageCount;
-      })
-      .addCase(addPack.fulfilled, (state, action) => {
-        packsThunks.getPacks({});
-      })
-      .addCase(deletePack.fulfilled, (state, action) => {
-        packsThunks.getPacks({});
-      })
-      .addCase(changePack.fulfilled, (state, action) => {
-        packsThunks.getPacks({});
-      });
+    builder.addCase(getPacks.fulfilled, (state, action) => {
+      console.log(action.payload.response);
+      state.packs = action.payload.response.cardPacks;
+      state.page = action.payload.response.page;
+      state.cardPacksTotalCount = action.payload.response.cardPacksTotalCount;
+      state.maxCardsCount = action.payload.response.maxCardsCount;
+      state.minCardsCount = action.payload.response.minCardsCount;
+      state.pageCount = action.payload.response.pageCount;
+    });
   },
 });
 
