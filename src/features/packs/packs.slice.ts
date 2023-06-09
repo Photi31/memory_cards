@@ -11,12 +11,13 @@ import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 import { ArgSetNameType } from "features/auth/auth.api";
 
 const getPacks = createAppAsyncThunk<
-  { packs: GetPacksResponseType },
+  { response: GetPacksResponseType },
   ArgGetPacksType
 >("packs/getPacks", async (payload: ArgGetPacksType, thunkAPI) => {
   return thunkTryCatch(thunkAPI, async () => {
     const res = await packsApi.getPacks(payload);
-    return { packs: res.data };
+    console.log(res);
+    return { response: res.data };
   });
 });
 
@@ -53,24 +54,24 @@ const changePack = createAppAsyncThunk<void, ArgChangePackType>(
 const slice = createSlice({
   name: "packs",
   initialState: {
-    packs: null as ArgSetNameType[] | null,
-    searchPackQueryParams: {
-      packName: null as string | null,
-      min: null as number | null,
-      max: null as number | null,
-      sortPacks: null as string | null,
-      page: null as number | null,
-      pageCount: null as number | null,
-      user_id: null as string | null,
-      block: null as boolean | null,
-    },
+    packs: null as CardPacksType[] | null,
+    page: null as number | null,
+    pageCount: null as number | null,
+    cardPacksTotalCount: null as number | null,
+    minCardsCount: 0,
+    maxCardsCount: 0,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getPacks.fulfilled, (state, action) => {
-        console.log(action.payload.packs);
-        state.packs = action.payload.packs.cardPacks;
+        console.log(action.payload.response);
+        state.packs = action.payload.response.cardPacks;
+        state.page = action.payload.response.page;
+        state.cardPacksTotalCount = action.payload.response.cardPacksTotalCount;
+        state.maxCardsCount = action.payload.response.maxCardsCount;
+        state.minCardsCount = action.payload.response.minCardsCount;
+        state.pageCount = action.payload.response.pageCount;
       })
       .addCase(addPack.fulfilled, (state, action) => {
         packsThunks.getPacks({});

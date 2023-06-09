@@ -62,9 +62,9 @@ export type CardPacksType = {
   __v: number;
 };
 export type ArgAddCardsPackType = {
-  name: string;
+  name?: string;
   deckCover?: string;
-  private: boolean;
+  private?: boolean;
 };
 export type ArgChangePackType = {
   _id: string;

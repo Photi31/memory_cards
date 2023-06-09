@@ -1,0 +1,125 @@
+.container {
+  margin: 35px 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 27px;
+}
+
+.filteredBlock {
+  margin-top: 34px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 8px;
+}
+
+.filterTitle {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.showPackTumbler {
+  height: 36px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+}
+
+.show {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  padding: 0 40px;
+}
+
+.active {
+  color: white;
+  background: #366eff;
+}
+
+.rangeBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.number {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 8px 13px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+
+.filterRemove {
+  height: 22px;
+  padding: 7px 10px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+
+.tableBlock {
+  margin-top: 24px;
+}
+
+.packHeader {
+  background: #efefef;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px 65px;
+}
+
+.packRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  padding: 16px 36px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: start;
+  align-items: center;
+}
+
+.actions img {
+  height: 16px;
+  cursor: pointer;
+}
