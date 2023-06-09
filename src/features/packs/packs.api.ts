@@ -3,7 +3,7 @@ import { instance } from "common/api";
 export const packsApi = {
   getPacks: (payload: ArgGetPacksType) => {
     return instance.get<GetPacksResponseType>("/cards/pack", {
-      params: { payload },
+      params: { ...payload },
     });
   },
   addPack: (arg: ArgAddCardsPackType) => {

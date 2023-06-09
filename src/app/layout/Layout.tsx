@@ -1,5 +1,5 @@
 import { LinearProgress } from "@mui/material";
-import { Header } from "components/header/Header";
+import { Header } from "app/header/Header";
 import s from "app/App.module.css";
 import { Outlet, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";

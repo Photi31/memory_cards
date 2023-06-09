@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import s from "components/header/Header.module.css";
+import s from "app/header/Header.module.css";
 import logo from "images/incubatorLogo.svg";
 import { smallBlueButtonSX } from "common/variableForStylization/buttonsStyle";
 import { Button } from "@mui/material";

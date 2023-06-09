@@ -17,7 +17,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { authThunks } from "features/auth/auth.slice";
-import { Layout } from "components/layout/Layout";
+import { Layout } from "app/layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
