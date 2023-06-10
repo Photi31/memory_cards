@@ -1,7 +1,8 @@
 import s from "features/packs/Packs.module.css";
 import { Slider } from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
-import { useAppSelector } from "common/hooks";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector, useDebounce } from "common/hooks";
+import { packsAction } from "features/packs/packs.slice";
 
 export const MySlider = () => {
   const minCardsCount = useAppSelector((state) => state.packs.minCardsCount);
@@ -10,6 +11,8 @@ export const MySlider = () => {
     minCardsCount,
     maxCardsCount,
   ]);
+  const debouncedValue = useDebounce<number[]>(minMax, 800);
+  const dispatch = useAppDispatch();
 
   const changeRange = (event: any, value: number | number[]) => {
     if (Array.isArray(value)) {
@@ -17,11 +20,21 @@ export const MySlider = () => {
     }
   };
   const changeMinMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-    //TODO debounce
-    console.log(e.currentTarget.id, +e.currentTarget.value);
     if (e.currentTarget.id === "minValue")
       setMinMax([+e.currentTarget.value, minMax[1]]);
+    else if (e.currentTarget.id === "maxValue")
+      setMinMax([minMax[0], +e.currentTarget.value]);
   };
+
+  useEffect(() => {
+    console.log(minMax);
+    dispatch(
+      packsAction.setMinMax({
+        min: minMax[0],
+        max: minMax[1],
+      })
+    );
+  }, [debouncedValue]);
 
   return (
     <div className={s.filter}>

@@ -81,6 +81,10 @@ const slice = createSlice({
     setUserId: (state, action) => {
       state.queryParams.user_id = action.payload.user_id;
     },
+    setMinMax: (state, action) => {
+      state.queryParams.min = action.payload.min;
+      state.queryParams.max = action.payload.max;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getPacks.fulfilled, (state, action) => {
