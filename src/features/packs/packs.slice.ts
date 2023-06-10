@@ -8,7 +8,7 @@ import {
   packsApi,
 } from "features/packs/packs.api";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
-import { getQueryParamsFiltration } from "features/packs/utils/getQueryParamsFiltration";
+import { getQueryParamsFromThunkApi } from "features/packs/utils/getQueryParamsFromThunkApi";
 
 const getPacks = createAppAsyncThunk<
   { response: GetPacksResponseType },
@@ -25,10 +25,9 @@ const addPack = createAppAsyncThunk<void, ArgAddCardsPackType>(
   "packs/addPack",
   async (arg: ArgAddCardsPackType, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    // const queryParams = getQueryParamsFiltration();
     return thunkTryCatch(thunkAPI, async () => {
       await packsApi.addPack(arg);
-      dispatch(getPacks({}));
+      dispatch(getPacks(getQueryParamsFromThunkApi(thunkAPI)));
     });
   }
 );
@@ -39,7 +38,7 @@ const deletePack = createAppAsyncThunk<void, string>(
     const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
       await packsApi.deletePack(arg);
-      dispatch(getPacks({}));
+      dispatch(getPacks(getQueryParamsFromThunkApi(thunkAPI)));
     });
   }
 );
@@ -50,7 +49,7 @@ const changePack = createAppAsyncThunk<void, ArgChangePackType>(
     const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
       await packsApi.changePack(arg);
-      dispatch(getPacks({}));
+      dispatch(getPacks(getQueryParamsFromThunkApi(thunkAPI)));
     });
   }
 );

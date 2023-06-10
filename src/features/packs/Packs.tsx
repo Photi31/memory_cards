@@ -11,13 +11,13 @@ import { MyTable } from "features/packs/components/table/MyTable";
 import { MyAllFilter } from "features/packs/components/myAllFilter/MyAllFilter";
 import { MySearch } from "features/packs/components/search/MySearch";
 import { RemoveFilter } from "features/packs/components/removeFilter/RemoveFilter";
-import { getQueryParamsFiltration } from "features/packs/utils/getQueryParamsFiltration";
+import { getQueryParamsFiltrated } from "features/packs/utils/getQueryParamsFiltrated";
 
 export const Packs = () => {
   const packs = useAppSelector((state) => state.packs.packs);
   const allQueryParams = useAppSelector((state) => state.packs.queryParams);
   const dispatch = useAppDispatch();
-  const queryParams = getQueryParamsFiltration(allQueryParams);
+  const queryParams = getQueryParamsFiltrated(allQueryParams);
 
   useEffect(() => {
     dispatch(packsThunks.getPacks(queryParams));

@@ -4,7 +4,7 @@ import { BaseThunkAPI } from "@reduxjs/toolkit/dist/createAsyncThunk";
 type Options = { showGlobalError?: boolean };
 
 export const thunkTryCatch = async <T>(
-  thunkAPI: BaseThunkAPI<RootState, any, AppDispatch, unknown>,
+  thunkAPI: ThunkApiType,
   promise: () => Promise<T>,
   options?: Options
 ): Promise<T | ReturnType<typeof thunkAPI.rejectWithValue>> => {
@@ -16,3 +16,5 @@ export const thunkTryCatch = async <T>(
     return rejectWithValue({ error: e, showGlobalError });
   }
 };
+
+export type ThunkApiType = BaseThunkAPI<RootState, any, AppDispatch, unknown>;
