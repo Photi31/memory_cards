@@ -1,15 +1,21 @@
 import s from "features/packs/Packs.module.css";
 import { InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import React, { ChangeEvent, useState } from "react";
-import { useDebounce } from "common/hooks";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useAppDispatch, useDebounce } from "common/hooks";
+import { packsAction } from "features/packs/packs.slice";
 
 export const MySearch = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const debouncedValue = useDebounce<string>(inputValue, 800);
+  const dispatch = useAppDispatch();
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
   };
+
+  useEffect(() => {
+    dispatch(packsAction.setSearchPackName({ searchPackName: inputValue }));
+  }, [debouncedValue]);
 
   return (
     <div className={s.filter}>
@@ -35,7 +41,12 @@ export const MySearch = () => {
           }}
         />
         <InputBase
-          sx={{ fontWeight: "400", fontSize: "14px", lineHeight: "24px" }}
+          sx={{
+            fontWeight: "400",
+            fontSize: "14px",
+            lineHeight: "24px",
+            width: "360px",
+          }}
           placeholder="Provide your text"
           inputProps={{ "aria-label": "search" }}
           onChange={searchHandler}

@@ -85,6 +85,9 @@ const slice = createSlice({
       state.queryParams.min = action.payload.min;
       state.queryParams.max = action.payload.max;
     },
+    setSearchPackName: (state, action) => {
+      state.queryParams.packName = action.payload.searchPackName;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getPacks.fulfilled, (state, action) => {

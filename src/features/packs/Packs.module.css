@@ -47,11 +47,12 @@
 .show {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 36px;
+  width: 95px;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  padding: 0 40px;
   cursor: pointer;
 }
 
@@ -71,11 +72,11 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
-  padding: 8px 13px;
   background: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  max-width: 27px;
+  width: 36px;
+  height: 36px;
   text-align: center;
 }
 
