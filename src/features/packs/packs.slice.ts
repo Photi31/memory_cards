@@ -74,7 +74,14 @@ const slice = createSlice({
       block: false,
     },
   },
-  reducers: {},
+  reducers: {
+    cleareQueryParams: (state, action) => {
+      state.queryParams = action.payload.queryParams;
+    },
+    setUserId: (state, action) => {
+      state.queryParams.user_id = action.payload.user_id;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPacks.fulfilled, (state, action) => {
       console.log(action.payload.response);
@@ -90,6 +97,7 @@ const slice = createSlice({
 });
 
 export const packsReducer = slice.reducer;
+export const packsAction = slice.actions;
 export const packsThunks = {
   getPacks,
   addPack,

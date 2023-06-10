@@ -3,6 +3,5 @@ import { getQueryParamsFiltrated } from "features/packs/utils/getQueryParamsFilt
 
 export const getQueryParamsFromThunkApi = (thunkApi: ThunkApiType) => {
   const queryParams = thunkApi.getState().packs.queryParams;
-  console.log(queryParams);
   return getQueryParamsFiltrated(queryParams);
 };

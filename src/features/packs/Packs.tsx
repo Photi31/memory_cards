@@ -17,11 +17,10 @@ export const Packs = () => {
   const packs = useAppSelector((state) => state.packs.packs);
   const allQueryParams = useAppSelector((state) => state.packs.queryParams);
   const dispatch = useAppDispatch();
-  const queryParams = getQueryParamsFiltrated(allQueryParams);
 
   useEffect(() => {
-    dispatch(packsThunks.getPacks(queryParams));
-  }, []);
+    dispatch(packsThunks.getPacks(getQueryParamsFiltrated(allQueryParams)));
+  }, [allQueryParams]);
 
   const newPack = {
     name: "🦣 add new Pack",
