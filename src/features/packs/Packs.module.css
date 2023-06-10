@@ -92,27 +92,33 @@
   margin-top: 24px;
 }
 
-.packHeader {
-  background: #efefef;
+.table {
+  width: 100%;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   padding: 16px 65px;
+  border-collapse: collapse;
 }
 
-.packRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+.tableHeader {
+  background: #efefef;
+}
+
+.tableHeader th {
+  text-align: start;
+  padding: 16px 36px;
+}
+
+.tableRow {
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
-  padding: 16px 36px;
   border-bottom: 1px solid #d9d9d9;
+}
+
+.tableRow td {
+  padding: 16px 36px;
 }
 
 .actions {

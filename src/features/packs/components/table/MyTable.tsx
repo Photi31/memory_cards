@@ -29,42 +29,84 @@ export const MyTable = () => {
 
   return (
     <div className={s.tableBlock}>
-      <div className={s.packHeader}>
-        <div>Name</div>
-        <div>Cards</div>
-        <div>Last Updated</div>
-        <div>Created by</div>
-        <div>Actions</div>
-      </div>
-      {packs &&
-        packs.map((pack) => (
-          <div key={pack._id} className={s.packRow}>
-            <div>{pack.name}</div>
-            <div>{pack.cardsCount}</div>
-            <div>{pack.updated}</div>
-            <div>{pack.user_name}</div>
-            <div className={s.actions}>
-              {myID === pack.user_id ? (
-                <>
-                  <div id={pack._id} onClick={studyPack}>
-                    <img src={teacher} alt="teacher" />
-                  </div>
-                  <div id={pack._id} onClick={renamePack}>
-                    <img src={pencil} alt="pencil" />
-                  </div>
-                  <div id={pack._id} onClick={deletePack}>
-                    <img src={trash} alt="trash" />
-                  </div>
-                </>
-              ) : (
-                <div id={pack._id} onClick={studyPack}>
-                  {" "}
-                  <img src={teacher} alt="teacher" />
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+      <table className={s.table}>
+        <tr className={s.tableHeader}>
+          <th>Name</th>
+          <th>Cards</th>
+          <th>Last Updated</th>
+          <th>Created by</th>
+          <th>Actions</th>
+        </tr>
+        {packs &&
+          packs.map((p) => {
+            const date = new Date(p.updated).toLocaleDateString("ru-RU");
+            return (
+              <tr key={p._id} className={s.tableRow}>
+                <td>{p.name}</td>
+                <td>{p.cardsCount}</td>
+                <td>{date}</td>
+                <td>{p.user_name}</td>
+                <td className={s.actions}>
+                  {myID === p.user_id ? (
+                    <>
+                      <div id={p._id} onClick={studyPack}>
+                        <img src={teacher} alt="teacher" />
+                      </div>
+                      <div id={p._id} onClick={renamePack}>
+                        <img src={pencil} alt="pencil" />
+                      </div>
+                      <div id={p._id} onClick={deletePack}>
+                        <img src={trash} alt="trash" />
+                      </div>
+                    </>
+                  ) : (
+                    <div id={p._id} onClick={studyPack}>
+                      {" "}
+                      <img src={teacher} alt="teacher" />
+                    </div>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+      </table>
+      {/*  <div className={s.packHeader}>*/}
+      {/*    <div>Name</div>*/}
+      {/*    <div>Cards</div>*/}
+      {/*    <div>Last Updated</div>*/}
+      {/*    <div>Created by</div>*/}
+      {/*    <div>Actions</div>*/}
+      {/*  </div>*/}
+      {/*  {packs &&*/}
+      {/*    packs.map((pack) => (*/}
+      {/*      <div key={pack._id} className={s.packRow}>*/}
+      {/*        <div>{pack.name}</div>*/}
+      {/*        <div>{pack.cardsCount}</div>*/}
+      {/*        <div>{pack.updated}</div>*/}
+      {/*        <div>{pack.user_name}</div>*/}
+      {/*        <div className={s.actions}>*/}
+      {/*          {myID === pack.user_id ? (*/}
+      {/*            <>*/}
+      {/*              <div id={pack._id} onClick={studyPack}>*/}
+      {/*                <img src={teacher} alt="teacher" />*/}
+      {/*              </div>*/}
+      {/*              <div id={pack._id} onClick={renamePack}>*/}
+      {/*                <img src={pencil} alt="pencil" />*/}
+      {/*              </div>*/}
+      {/*              <div id={pack._id} onClick={deletePack}>*/}
+      {/*                <img src={trash} alt="trash" />*/}
+      {/*              </div>*/}
+      {/*            </>*/}
+      {/*          ) : (*/}
+      {/*            <div id={pack._id} onClick={studyPack}>*/}
+      {/*              {" "}*/}
+      {/*              <img src={teacher} alt="teacher" />*/}
+      {/*            </div>*/}
+      {/*          )}*/}
+      {/*        </div>*/}
+      {/*      </div>*/}
+      {/*    ))}*/}
+      {/*</div>*/}
     </div>
   );
 };
