@@ -8,6 +8,7 @@ import {
   packsApi,
 } from "features/packs/packs.api";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
+import { getQueryParamsFiltration } from "features/packs/utils/getQueryParamsFiltration";
 
 const getPacks = createAppAsyncThunk<
   { response: GetPacksResponseType },
@@ -24,6 +25,7 @@ const addPack = createAppAsyncThunk<void, ArgAddCardsPackType>(
   "packs/addPack",
   async (arg: ArgAddCardsPackType, thunkAPI) => {
     const { dispatch } = thunkAPI;
+    // const queryParams = getQueryParamsFiltration();
     return thunkTryCatch(thunkAPI, async () => {
       await packsApi.addPack(arg);
       dispatch(getPacks({}));
@@ -62,17 +64,28 @@ const slice = createSlice({
     cardPacksTotalCount: null as number | null,
     minCardsCount: 0,
     maxCardsCount: 0,
+    queryParams: {
+      packName: "",
+      min: 0,
+      max: 0,
+      sortPacks: "",
+      page: 1,
+      pageCount: 7,
+      user_id: "",
+      block: false,
+    },
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getPacks.fulfilled, (state, action) => {
       console.log(action.payload.response);
-      state.packs = action.payload.response.cardPacks;
-      state.page = action.payload.response.page;
-      state.cardPacksTotalCount = action.payload.response.cardPacksTotalCount;
-      state.maxCardsCount = action.payload.response.maxCardsCount;
-      state.minCardsCount = action.payload.response.minCardsCount;
-      state.pageCount = action.payload.response.pageCount;
+      const packs = action.payload.response;
+      state.packs = packs.cardPacks;
+      state.page = packs.page;
+      state.cardPacksTotalCount = packs.cardPacksTotalCount;
+      state.maxCardsCount = packs.maxCardsCount;
+      state.minCardsCount = packs.minCardsCount;
+      state.pageCount = packs.pageCount;
     });
   },
 });

@@ -20,7 +20,7 @@ export const Layout = () => {
     dispatch(authThunks.me({}))
       .unwrap()
       .then(() => {
-        navigate("/profile");
+        navigate("/packs");
       })
       .catch(() => {
         navigate("/login");

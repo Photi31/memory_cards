@@ -5,33 +5,22 @@ import s1 from "app/App.module.css";
 import s from "features/packs/Packs.module.css";
 import { smallBlueButtonSX } from "common/variableForStylization/buttonsStyle";
 import { Button } from "@mui/material";
-import filterRemove from "images/filter-remove.svg";
 
-import { useNavigate } from "react-router-dom";
 import { MySlider } from "features/packs/components/slider/MySlider";
 import { MyTable } from "features/packs/components/table/MyTable";
 import { MyAllFilter } from "features/packs/components/myAllFilter/MyAllFilter";
 import { MySearch } from "features/packs/components/search/MySearch";
+import { RemoveFilter } from "features/packs/components/removeFilter/RemoveFilter";
+import { getQueryParamsFiltration } from "features/packs/utils/getQueryParamsFiltration";
 
 export const Packs = () => {
   const packs = useAppSelector((state) => state.packs.packs);
+  const allQueryParams = useAppSelector((state) => state.packs.queryParams);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  let queryParamsForGet = {
-    packName: "", // не обязательно
-    min: 0, // не обязательно
-    max: 0, // не обязательно
-    sortPacks: "", // не обязательно TODO
-    page: 0, // не обязательно
-    pageCount: 0, // не обязательно
-    user_id: "", // чьи колоды не обязательно, или придут все
-    block: false,
-  };
-  let payload = { pageCount: 10 };
+  const queryParams = getQueryParamsFiltration(allQueryParams);
 
   useEffect(() => {
-    dispatch(packsThunks.getPacks(payload));
+    dispatch(packsThunks.getPacks(queryParams));
   }, []);
 
   const newPack = {
@@ -55,13 +44,7 @@ export const Packs = () => {
         <MySearch />
         <MyAllFilter />
         <MySlider />
-        <div className={s.filter}>
-          <img
-            className={s.filterRemove}
-            src={filterRemove}
-            alt="filterRemove"
-          />
-        </div>
+        <RemoveFilter />
       </div>
       {packs && <MyTable />}
     </div>

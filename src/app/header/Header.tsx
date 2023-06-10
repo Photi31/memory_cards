@@ -21,7 +21,13 @@ export const Header = () => {
     setOpenMenu(!openMenu);
   };
 
+  const profileHandler = () => {
+    setOpenMenu(false);
+    navigate("/profile");
+  };
+
   const logoutHandler = () => {
+    setOpenMenu(false);
     dispatch(authThunks.logout())
       .unwrap()
       .then(() => {
@@ -43,10 +49,10 @@ export const Header = () => {
             </div>
             {openMenu && (
               <ul className={s.userMenu}>
-                <NavLink to="/profile" className={s.menuItem}>
+                <li className={s.menuItem} onClick={profileHandler}>
                   <img src={user} alt="user" />
                   <span>Profile</span>
-                </NavLink>
+                </li>
                 <li className={s.menuItem} onClick={logoutHandler}>
                   <img src={logout} alt="logout" />
                   <span>Log out</span>

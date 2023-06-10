@@ -5,11 +5,13 @@ import trash from "images/trash.svg";
 import React, { MouseEvent } from "react";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { packsThunks } from "features/packs/packs.slice";
+import { useNavigate } from "react-router-dom";
 
 export const MyTable = () => {
   const myID = useAppSelector((state) => state.auth.profile?._id);
   const packs = useAppSelector((state) => state.packs.packs);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const studyPack = (e: MouseEvent<HTMLDivElement>) => {
     const id = e.currentTarget.id;
