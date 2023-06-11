@@ -12,6 +12,7 @@ import { MyAllFilter } from "features/packs/components/myAllFilter/MyAllFilter";
 import { MySearch } from "features/packs/components/search/MySearch";
 import { RemoveFilter } from "features/packs/components/removeFilter/RemoveFilter";
 import { getQueryParamsFiltrated } from "features/packs/utils/getQueryParamsFiltrated";
+import { Paginations } from "features/packs/components/paginations/Paginations";
 
 export const Packs = () => {
   const packs = useAppSelector((state) => state.packs.packs);
@@ -46,6 +47,7 @@ export const Packs = () => {
         <RemoveFilter />
       </div>
       {packs && <MyTable />}
+      <Paginations />
     </div>
   );
 };

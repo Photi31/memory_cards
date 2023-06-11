@@ -69,7 +69,7 @@ const slice = createSlice({
       max: 0,
       sortPacks: "",
       page: 1,
-      pageCount: 7,
+      pageCount: 0,
       user_id: "",
       block: false,
     },
@@ -87,6 +87,12 @@ const slice = createSlice({
     },
     setSearchPackName: (state, action) => {
       state.queryParams.packName = action.payload.searchPackName;
+    },
+    setPage: (state, action) => {
+      state.queryParams.page = action.payload.page;
+    },
+    setPageCount: (state, action) => {
+      state.queryParams.pageCount = action.payload.pageCount;
     },
   },
   extraReducers: (builder) => {
