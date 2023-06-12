@@ -26,7 +26,10 @@ export const MyTable = () => {
   const deletePack = (e: MouseEvent<HTMLDivElement>) => {
     dispatch(packsThunks.deletePack(e.currentTarget.id));
   };
-  console.log(packs, " ", !!packs);
+
+  const clickPackNameHandler = (e: MouseEvent<HTMLTableCellElement>) => {
+    console.log(e.currentTarget.id);
+  };
 
   return (
     <div className={s.tableBlock}>
@@ -46,7 +49,13 @@ export const MyTable = () => {
               const date = new Date(p.updated).toLocaleDateString("ru-RU");
               return (
                 <tr key={p._id} className={s.tableRow}>
-                  <td>{p.name}</td>
+                  <td
+                    id={p._id}
+                    className={s.packsName}
+                    onClick={clickPackNameHandler}
+                  >
+                    {p.name}
+                  </td>
                   <td>{p.cardsCount}</td>
                   <td>{date}</td>
                   <td>{p.user_name}</td>
@@ -76,7 +85,7 @@ export const MyTable = () => {
           </tbody>
         </table>
       )}
-      {packs && (
+      {packs && packs.length === 0 && (
         <div className={s.packsNotFound}>
           🧐 Колоды с введенным название или заданными параметрами не найдены.
           Измените параметры запроса.

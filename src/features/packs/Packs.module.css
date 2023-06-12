@@ -86,6 +86,7 @@
   background: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .tableBlock {
@@ -119,7 +120,7 @@
   line-height: 16px;
   border-bottom: 1px solid #d9d9d9;
 }
-.tableRow:nth-child(1) {
+.packsName {
   cursor: pointer;
 }
 

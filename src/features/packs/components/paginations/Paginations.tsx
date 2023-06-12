@@ -9,19 +9,18 @@ export const Paginations = () => {
     (state) => state.packs.cardPacksTotalCount
   );
   const pageCount = useAppSelector((state) => state.packs.pageCount);
-  const [selectValue, setSelectValue] = useState<string>(
-    pageCount?.toString() || "4"
-  );
-
+  const page = useAppSelector((state) => state.packs.page);
   const dispatch = useAppDispatch();
   const paginationHandler = (event: ChangeEvent<unknown>, page: number) => {
     dispatch(packsAction.setPage({ page }));
   };
   const selectHandel = (event: ChangeEvent<HTMLSelectElement>) => {
     // debugger;
-    setSelectValue(event.target.value);
     dispatch(packsAction.setPageCount({ pageCount: +event.target.value }));
   };
+  const selectValue = pageCount?.toString() || "4";
+
+  const paginationPage = page || 1;
 
   let allPage = 1;
   if (cardPacksTotalCount && pageCount)
@@ -35,6 +34,7 @@ export const Paginations = () => {
         size="small"
         onChange={paginationHandler}
         color="primary"
+        page={paginationPage}
         sx={{
           button: {
             fontWeight: "400",

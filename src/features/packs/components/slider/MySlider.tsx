@@ -7,12 +7,16 @@ import { packsAction } from "features/packs/packs.slice";
 export const MySlider = () => {
   const minCardsCount = useAppSelector((state) => state.packs.minCardsCount);
   const maxCardsCount = useAppSelector((state) => state.packs.maxCardsCount);
+  const min = useAppSelector((state) => state.packs.queryParams.min);
+  const max = useAppSelector((state) => state.packs.queryParams.max);
   const [minMax, setMinMax] = useState<number[]>([
     minCardsCount,
     maxCardsCount,
   ]);
   const debouncedValue = useDebounce<number[]>(minMax, 800);
   const dispatch = useAppDispatch();
+
+  // console.log(min, max, minMax); //TODO
 
   const changeRange = (event: any, value: number | number[]) => {
     if (Array.isArray(value)) {

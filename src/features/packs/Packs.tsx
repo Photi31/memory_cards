@@ -21,7 +21,7 @@ export const Packs = () => {
 
   useEffect(() => {
     dispatch(packsThunks.getPacks(getQueryParamsFiltrated(allQueryParams)));
-  }, [allQueryParams]);
+  }, [dispatch, allQueryParams]);
 
   const newPack = {
     name: "🦣 add new Pack",
