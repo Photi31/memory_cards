@@ -16,7 +16,6 @@ const getPacks = createAppAsyncThunk<
 >("packs/getPacks", async (payload: ArgGetPacksType, thunkAPI) => {
   return thunkTryCatch(thunkAPI, async () => {
     const res = await packsApi.getPacks(payload);
-    console.log(res);
     return { response: res.data };
   });
 });
@@ -97,7 +96,6 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getPacks.fulfilled, (state, action) => {
-      console.log(action.payload.response);
       const packs = action.payload.response;
       state.packs = packs.cardPacks;
       state.page = packs.page;

@@ -2,9 +2,11 @@ import { instance } from "common/api";
 
 export const cardsApi = {
   getCards: (payload: ArgGetCard) => {
-    return instance.get<any>("/cards/card", { params: { ...payload } });
+    return instance.get<ResponseGetCards>("/cards/card", {
+      params: { ...payload },
+    });
   },
-  createNewCard: (newCard: any) => {
+  createNewCard: (newCard: ArgCreateNewCard) => {
     return instance.post<{ newCard: any }>("/cards/card", {
       card: { ...newCard },
     });
@@ -40,10 +42,44 @@ export type ArgGetCard = {
   pageCount?: number;
 };
 
-type Grade = 1 | 2 | 3 | 4 | 5;
+export type ResponseGetCards = {
+  cards: CardType[];
+  cardsTotalCount: number;
+  maxGrade: number;
+  minGrade: number;
+  page: number;
+  pageCount: number;
+  packUserId: string;
+};
+
+export type CardType = {
+  answer: string;
+  question: string;
+  cardsPack_id: string;
+  grade: number;
+  shots: number;
+  user_id: string;
+  created: string;
+  updated: string;
+  _id: string;
+};
+
+export type ArgCreateNewCard = {
+  cardsPack_id: string;
+  question?: string;
+  answer?: string;
+  grade?: number;
+  shots?: number;
+  answerImg?: string;
+  questionImg?: string;
+  questionVideo?: string;
+  answerVideo?: string;
+};
+
+// type Grade = 0 | 1 | 2 | 3 | 4 | 5;
 
 export type ArgChangeGradeType = {
-  grade: Grade;
+  grade: number;
   card_id: string;
 };
 
@@ -52,6 +88,6 @@ export type ResponseChangeGradeType = {
   cardsPack_id: string;
   card_id: string;
   user_id: string;
-  grade: Grade;
+  grade: number;
   shots: number;
 };

@@ -1,0 +1,37 @@
+.cardsBlock {
+  margin-top: 75px;
+  position: relative;
+}
+
+.cardsBlockWithoutCards {
+}
+
+.cardsBlockWithCards {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardsTitle {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 27px;
+}
+
+.information {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardsDescription {
+  display: block;
+  margin: 85px 0 32px 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 0.5;
+}

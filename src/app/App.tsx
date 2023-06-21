@@ -21,6 +21,9 @@ import { Layout } from "app/layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const query =
+  "?packName=val&min=val1&max=val2&sortPacks=val3&page=val4&pageCount=val5&user_id=val6";
+
 const router = createBrowserRouter([
   {
     path: "/",

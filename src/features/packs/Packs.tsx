@@ -13,13 +13,18 @@ import { MySearch } from "features/packs/components/search/MySearch";
 import { RemoveFilter } from "features/packs/components/removeFilter/RemoveFilter";
 import { getQueryParamsFiltrated } from "features/packs/utils/getQueryParamsFiltrated";
 import { Paginations } from "features/packs/components/paginations/Paginations";
+import { useParams } from "react-router-dom";
 
 export const Packs = () => {
   const packs = useAppSelector((state) => state.packs.packs);
   const allQueryParams = useAppSelector((state) => state.packs.queryParams);
   const dispatch = useAppDispatch();
+  const query = useParams();
+
+  console.log(query);
 
   useEffect(() => {
+    // debugger;
     dispatch(packsThunks.getPacks(getQueryParamsFiltrated(allQueryParams)));
   }, [dispatch, allQueryParams]);
 

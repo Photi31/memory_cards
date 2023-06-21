@@ -5,7 +5,9 @@ import { packsAction } from "features/packs/packs.slice";
 
 export const MyAllFilter = () => {
   const myID = useAppSelector((state) => state.auth.profile?._id);
-  const [activeSpan, setActiveSpan] = useState<string>("all");
+  const user_id = useAppSelector((state) => state.packs.queryParams.user_id);
+  const filter = user_id === myID ? "my" : "all";
+  const [activeSpan, setActiveSpan] = useState<string>(filter);
   const dispatch = useAppDispatch();
   const showPack = (e: MouseEvent<HTMLSpanElement>) => {
     setActiveSpan(e.currentTarget.id);

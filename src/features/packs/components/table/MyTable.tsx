@@ -6,6 +6,7 @@ import React, { MouseEvent } from "react";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { packsThunks } from "features/packs/packs.slice";
 import { useNavigate } from "react-router-dom";
+import { cardsActions } from "features/cards/cards.slice";
 
 export const MyTable = () => {
   const myID = useAppSelector((state) => state.auth.profile?._id);
@@ -28,7 +29,16 @@ export const MyTable = () => {
   };
 
   const clickPackNameHandler = (e: MouseEvent<HTMLTableCellElement>) => {
-    console.log(e.currentTarget.id);
+    // console.log(e.currentTarget.id, e.currentTarget.innerHTML);
+    dispatch(
+      cardsActions.setCardsPackIdAndName({
+        cardsPack_id: e.currentTarget.id,
+        cardsPack_name: e.currentTarget.innerHTML,
+      })
+    );
+    setTimeout(() => {
+      navigate("/cards");
+    }, 50);
   };
 
   return (
