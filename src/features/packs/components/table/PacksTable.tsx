@@ -8,7 +8,7 @@ import { packsThunks } from "features/packs/packs.slice";
 import { useNavigate } from "react-router-dom";
 import { cardsActions } from "features/cards/cards.slice";
 
-export const MyTable = () => {
+export const PacksTable = () => {
   const myID = useAppSelector((state) => state.auth.profile?._id);
   const packs = useAppSelector((state) => state.packs.packs);
   const dispatch = useAppDispatch();

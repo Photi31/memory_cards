@@ -5,7 +5,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useAppDispatch, useDebounce } from "common/hooks";
 import { packsAction } from "features/packs/packs.slice";
 
-export const MySearch = () => {
+export const PacksSearch = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const debouncedValue = useDebounce<string>(inputValue, 800);
   const dispatch = useAppDispatch();

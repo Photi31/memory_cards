@@ -53,12 +53,28 @@ const slice = createSlice({
     minGrade: 0,
     page: 1,
     pageCount: 4,
+    cardQuestion: "",
+    sortCards: "",
     packUserId: null as string | null,
   },
+  //   cardAnswer=english // не обязательно
+  //   &cardQuestion=english // не обязательно
+  //   &cardsPack_id=5eb6a2f72f849402d46c6ac7
+  // &min=1 // не обязательно
+  // &max=4 // не обязательно
+  // &sortCards=0grade // не обязательно
+  // &page=1 // не обязательно
+  // &pageCount=7
   reducers: {
     setCardsPackIdAndName: (state, action) => {
       state.cardsPack_id = action.payload.cardsPack_id;
       state.cardsPack_name = action.payload.cardsPack_name;
+    },
+    setPage: (state, action) => {
+      state.page = action.payload.page;
+    },
+    setPageCount: (state, action) => {
+      state.pageCount = action.payload.pageCount;
     },
   },
   extraReducers: (builder) => {

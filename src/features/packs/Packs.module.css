@@ -110,7 +110,7 @@
 
 .tableHeader th {
   text-align: start;
-  padding: 16px 36px;
+  padding: 16px 0 16px 24px;
 }
 
 .tableRow {
@@ -125,7 +125,7 @@
 }
 
 .tableRow td {
-  padding: 16px 36px;
+  padding: 16px 0 16px 24px;
 }
 
 .actions {

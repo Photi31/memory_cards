@@ -7,16 +7,27 @@ import arrowBack from "images/arrowBack.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CardsHeader } from "features/cards/components/header/CardsHeader";
 import { packsAction, packsThunks } from "features/packs/packs.slice";
+import { CardsSearch } from "features/cards/components/search/CardsSearch";
+import { CardsTable } from "features/cards/components/table/CardsTable";
+import { Paginations } from "features/packs/components/paginations/Paginations";
 
 export const Cards = () => {
+  const cardsTotalCount = useAppSelector(
+    (state) => state.cards.cardsTotalCount
+  );
+  const pageCount = useAppSelector((state) => state.cards.pageCount);
+  const page = useAppSelector((state) => state.cards.page);
   const cardsPack_id = useAppSelector((state) => state.cards.cardsPack_id);
+  const cardQuestion = useAppSelector((state) => state.cards.cardQuestion);
   const cards = useAppSelector((state) => state.cards.cards);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(cardsThunks.getCards({ cardsPack_id }));
-  }, []);
+    dispatch(
+      cardsThunks.getCards({ cardsPack_id, pageCount, page, cardQuestion })
+    );
+  }, [dispatch, pageCount, page, cardQuestion]);
 
   const backToPacks = () => {
     dispatch(packsAction.setUserId(""));
@@ -36,15 +47,14 @@ export const Cards = () => {
         <span>Back to Packs List</span>
       </div>
       <CardsHeader />
-      {cardsPack_id && <div>{cardsPack_id}</div>}
-      {cards &&
-        cards.map((c) => {
-          return (
-            <div key={c._id}>
-              {c._id} || {c.question} || {c.answer} || {c.updated} || {c.grade}
-            </div>
-          );
-        })}
+      <CardsSearch />
+      {cards && <CardsTable />}
+      <Paginations
+        name="cards"
+        totalCount={cardsTotalCount}
+        pageCount={pageCount}
+        page={page}
+      />
     </div>
   );
 };

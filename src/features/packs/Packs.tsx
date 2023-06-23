@@ -7,15 +7,20 @@ import { smallBlueButtonSX } from "common/variableForStylization/buttonsStyle";
 import { Button } from "@mui/material";
 
 import { MySlider } from "features/packs/components/slider/MySlider";
-import { MyTable } from "features/packs/components/table/MyTable";
+import { PacksTable } from "features/packs/components/table/PacksTable";
 import { MyAllFilter } from "features/packs/components/myAllFilter/MyAllFilter";
-import { MySearch } from "features/packs/components/search/MySearch";
+import { PacksSearch } from "features/packs/components/search/PacksSearch";
 import { RemoveFilter } from "features/packs/components/removeFilter/RemoveFilter";
 import { getQueryParamsFiltrated } from "features/packs/utils/getQueryParamsFiltrated";
 import { Paginations } from "features/packs/components/paginations/Paginations";
 import { useParams } from "react-router-dom";
 
 export const Packs = () => {
+  const cardPacksTotalCount = useAppSelector(
+    (state) => state.packs.cardPacksTotalCount
+  );
+  const pageCount = useAppSelector((state) => state.packs.pageCount);
+  const page = useAppSelector((state) => state.packs.page);
   const packs = useAppSelector((state) => state.packs.packs);
   const allQueryParams = useAppSelector((state) => state.packs.queryParams);
   const dispatch = useAppDispatch();
@@ -46,13 +51,18 @@ export const Packs = () => {
         </Button>
       </header>
       <div className={s.filteredBlock}>
-        <MySearch />
+        <PacksSearch />
         <MyAllFilter />
         <MySlider />
         <RemoveFilter />
       </div>
-      {packs && <MyTable />}
-      <Paginations />
+      {packs && <PacksTable />}
+      <Paginations
+        name="pack"
+        totalCount={cardPacksTotalCount || 1}
+        pageCount={pageCount || 1}
+        page={page || 1}
+      />
     </div>
   );
 };

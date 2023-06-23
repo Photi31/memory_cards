@@ -3,28 +3,46 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import s from "features/packs/Packs.module.css";
 import { ChangeEvent, ReactNode, useState } from "react";
 import { packsAction } from "features/packs/packs.slice";
+import { cardsActions } from "features/cards/cards.slice";
 
-export const Paginations = () => {
-  const cardPacksTotalCount = useAppSelector(
-    (state) => state.packs.cardPacksTotalCount
-  );
-  const pageCount = useAppSelector((state) => state.packs.pageCount);
-  const page = useAppSelector((state) => state.packs.page);
+type PaginationsProps = {
+  name: string;
+  totalCount: number;
+  pageCount: number;
+  page: number;
+};
+
+export const Paginations = ({
+  name,
+  totalCount,
+  pageCount,
+  page,
+}: PaginationsProps) => {
   const dispatch = useAppDispatch();
   const paginationHandler = (event: ChangeEvent<unknown>, page: number) => {
-    dispatch(packsAction.setPage({ page }));
+    if (name === "pack") {
+      dispatch(packsAction.setPage({ page }));
+    } else if (name === "cards") {
+      dispatch(cardsActions.setPage({ page }));
+    } else {
+      throw new Error("Ошибка пагинации.");
+    }
   };
   const selectHandel = (event: ChangeEvent<HTMLSelectElement>) => {
     // debugger;
-    dispatch(packsAction.setPageCount({ pageCount: +event.target.value }));
+    if (name === "pack") {
+      dispatch(packsAction.setPageCount({ pageCount: +event.target.value }));
+    } else if (name === "cards") {
+      dispatch(cardsActions.setPageCount({ pageCount: +event.target.value }));
+    } else {
+      throw new Error("Ошибка пагинации.");
+    }
   };
-  const selectValue = pageCount?.toString() || "4";
+  const selectValue = pageCount.toString() || "4";
 
   const paginationPage = page || 1;
 
-  let allPage = 1;
-  if (cardPacksTotalCount && pageCount)
-    allPage = Math.ceil(cardPacksTotalCount / pageCount);
+  let allPage = Math.ceil(totalCount / pageCount);
 
   return (
     <div className={s.pagination}>
